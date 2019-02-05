@@ -127,7 +127,8 @@ def parentheses(filelist, num_bugs):
     return new_filelist, num_bugs_update
 
 def bugged_comment(filelist, num_bugs):
-    '''Replaces comment with a specified comment.
+    '''
+    Replaces comment with a specified comment.
     '''
     bug_comment = '#THIS COMMENT HAS BEEN BUGGIFIED!'
     flag = True
@@ -162,6 +163,27 @@ def bugged_docstring(filelist, num_bugs):
     num_bugs -= 1
     return filelist, num_bugs
 
+def line_switch(filelist, num_bugs):
+    '''
+    Randomly switch a line with the one before it.
+    '''
+    randomizer = random.randint(0, len(filelist) - 1)
+    first_line = filelist[randomizer]
+    #restart the function if one the lines is empty
+    if filelist[randomizer] == '' or filelist[randomizer - 1] == '':
+        line_switch(filelist, num_bugs)
+    #we can't pick the previous line if the first line is chosen
+    if randomizer == 0:
+        second_line = filelist[randomizer + 1]
+        filelist[randomizer] = second_line
+        filelist[randomizer + 1] = first_line
+    else:
+        second_line = filelist[randomizer - 1]
+        filelist[randomizer] = second_line
+        filelist[randomizer - 1] = first_line
+    num_bugs -= 1
+    return filelist, num_bugs
+
 #List of all the bugs which buggify randomly chooses from to implement.    
 function_list = [
                  zero_o,
@@ -171,5 +193,7 @@ function_list = [
                  period_swap,
                  tabs_spaces,
                  num_change,
-                 elif_else
+                 elif_else,
+                 line_switch,
                  ]
+

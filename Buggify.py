@@ -93,7 +93,7 @@ original_file, copy_of_file = buggify()
 filelist = convert_to_list(copy_of_file)
 answer_key = alter_file_name(original_file, 'BUG-ANSWERKEY')
 
-num_bugs = 50
+num_bugs = 20
 while num_bugs > 1:
     random_num = random.randint(0,len(bf.function_list) - 1)
     filelist, num_bugs = bf.function_list[random_num](filelist, num_bugs)
