@@ -3,6 +3,8 @@ FEATURES:
 -Allow for the input of declared files so the entire function can run on multiple files.
 	#For each file in this directory:
 	#	buggify(each file)
+-Consider consolidating both .py files into one file for easier use.
+-Alternatively pursue a GUI implementation / Pyinstaller
 
 -Grammar mode
 	-Allows for automatic inputting of Grammar, spelling and punctuation errors geared more towards education.
