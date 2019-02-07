@@ -184,6 +184,33 @@ def line_switch(filelist, num_bugs):
     num_bugs -= 1
     return filelist, num_bugs
 
+def char_switch(filelist, num_bugs):
+    '''
+    Randomly switch a charachter with the one before it.
+    '''
+    line_index, line_char_list = random_line(filelist)
+    random_num = random.randint(0, len(line_char_list) - 1)
+
+    #don't switch with whitespace
+    if line_char_list[random_num] == ' ' or line_char_list[random_num - 1] == ' ':
+        char_switch(filelist, num_bugs)
+    char = line_char_list[random_num]
+    #we can't user the previous char, if the first char is chosen
+    if random_num != 0: 
+        prev_char = line_char_list[random_num - 1]
+        line_char_list[random_num - 1] = char
+    else:
+        prev_char = line_char_list[random_num + 1]
+        line_char_list[random_num + 1] = char
+    line_char_list[random_num] = prev_char
+    num_bugs -= 1
+
+    filelist[line_index] = ''.join(line_char_list)
+    return filelist, num_bugs
+    
+
+    
+
 #List of all the bugs which buggify randomly chooses from to implement.    
 function_list = [
                  zero_o,
@@ -195,5 +222,6 @@ function_list = [
                  num_change,
                  elif_else,
                  line_switch,
+                 char_switch,
                  ]
 
