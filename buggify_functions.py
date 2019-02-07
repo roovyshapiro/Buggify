@@ -195,7 +195,7 @@ def char_switch(filelist, num_bugs):
     if line_char_list[random_num] == ' ' or line_char_list[random_num - 1] == ' ':
         char_switch(filelist, num_bugs)
     char = line_char_list[random_num]
-    #we can't user the previous char, if the first char is chosen
+    #we can't use the previous char, if the first char is chosen
     if random_num != 0: 
         prev_char = line_char_list[random_num - 1]
         line_char_list[random_num - 1] = char
