@@ -3,19 +3,11 @@ from tkinter.filedialog import askopenfilename, asksaveasfilename
 from tkinter import Tk
 import buggify_functions as bf
 
-def buggify():
+def copy_file(file):
     '''
-    Prompts user to choose a file.
-    Add 'BUGGIFIED' to a copy of the file before it's extension.
-    Returns the original file and the copy for us to work with.
+    Returns the original file and a copy of the original ('filename.py')
+    into the same directory: 'filenameBUGGIFIED.py'
     '''
-    #Removes small tk window
-    Tk().withdraw()
-
-    #Prompts User to Choose File.
-    file = askopenfilename()
-
-    #Makes a copy of the original ('filename.py') into the same directory 'filenameBUGGIFIED.py'
     buggified_file = alter_file_name(file, 'BUGGIFIED')
     shutil.copy(file, buggified_file)
 
@@ -74,20 +66,32 @@ def diff_output(file, bugfile, answers):
     return answers
 
 
-
-original_file, copy_of_file = buggify()
-filelist = convert_to_list(copy_of_file)
-answer_key = alter_file_name(original_file, 'BUG-ANSWERKEY')
-
-num_bugs = 20
-while num_bugs > 1:
-    random_num = random.randint(0,len(bf.function_list) - 1)
-    filelist, num_bugs = bf.function_list[random_num](filelist, num_bugs)
+def buggify(full_file_path = '', num_bugs = 0):
+    '''
+    Main Buggify function.
+    1. Creates buggified copies of file
+    2. Runs bug functions to add in errors
+    3. Outputs the answer key diff
+    '''
+    if full_file_path == '':
+        #Removes small Tk window and prompts user to choose file.
+        Tk().withdraw()
+        full_file_path = askopenfilename()
+    original_file, copy_of_file = copy_file(full_file_path)
     
-filechanges = '\n'.join(filelist)
+    filelist = convert_to_list(copy_of_file)
+    
+    answer_key = alter_file_name(original_file, 'BUG-ANSWERKEY')
+    if num_bugs == 0:
+        num_bugs = 10
+    while num_bugs > 1:
+        random_num = random.randint(0,len(bf.function_list) - 1)
+        filelist, num_bugs = bf.function_list[random_num](filelist, num_bugs)
+        
+    filechanges = '\n'.join(filelist)
 
-finalbugs = write_changes(copy_of_file, filechanges)
-diff_output(original_file, copy_of_file, answer_key)
+    finalbugs = write_changes(copy_of_file, filechanges)
+    diff_output(original_file, copy_of_file, answer_key)
 
 
 
