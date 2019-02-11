@@ -21,4 +21,3 @@ BUG FUNCTION IDEAS:
 -Use Regex to change snake_case to CamelCase.
 -Insert charachter at random point in the line.
 	-Duplicate the charachter?
--Change word from lowercase to Uppercase using title() and vice versae

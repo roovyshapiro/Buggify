@@ -208,6 +208,21 @@ def char_switch(filelist, num_bugs):
     filelist[line_index] = ''.join(line_char_list)
     return filelist, num_bugs
     
+def case_switch(filelist, num_bugs):
+    num_times = num_bugs
+    while num_times == num_bugs:
+        line_index, line_char_list = random_line(filelist)
+        for char_index in range(len(line_char_list)):
+            randomizer = random.randint(0, 3)
+            if line_char_list[char_index].isalpha() and line_char_list[char_index - 1] == ' ' and randomizer == 1:
+                if line_char_list[char_index].isupper():
+                    line_char_list[char_index] = line_char_list[char_index].lower()
+                elif line_char_list[char_index].islower():
+                    line_char_list[char_index] = line_char_list[char_index].upper()
+                num_bugs -= 1
+                break
+    filelist[line_index] = ''.join(line_char_list)
+    return filelist, num_bugs
 
     
 
@@ -223,5 +238,5 @@ function_list = [
                  elif_else,
                  line_switch,
                  char_switch,
+                 case_switch,
                  ]
-
