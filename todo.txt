@@ -1,23 +1,30 @@
-FEATURES:
+NEW FEATURES:
 -The program's initialization should be done as a function, so you can simple type "buggify()"
--Allow for the input of declared files so the entire function can run on multiple files.
+-Allow for the input of declared files so the entire function can run on multiple files
 	#For each file in this directory:
 	#	buggify(each file)
--Consider consolidating both .py files into one file for easier use.
+-Consider consolidating both py files into one file for easier use
 -Alternatively pursue a GUI implementation / Pyinstaller
 
 -Grammar mode
-	-Allows for automatic inputting of Grammar, spelling and punctuation errors geared more towards education.
--Programming Language specific bugs. 
-	-Possible abstraction of functions to be more customizable based on the language.
-	-Automatically detect language based on file extension.
+	-Allows for automatic inputting of Grammar, spelling and punctuation errors geared more towards education
+-Programming Language specific bugs 
+	-Possible abstraction of functions to be more customizable based on the language
+	-Automatically detect language based on file extension
 
 ISSUES:
 -Diff with more context so the line_switch function diff makes more sense
 -Change variables to be more descriptive eg. "mylist"
 -Add additional comments
+-Functions are inconsistent regarding how many times they run 
+	-Some functions exit without executing since they don't fulfill all conditionals
+	-Some functions will not exit until it is executed at least once
+	-Ideally, all functions should not exit without executing once
+		-Consider a case where a function does not apply to any of the lines in the file
+		-"bugged_docstring" would result in an infinite loop if there are no docstrings in the file
+		-Thus for consistency, if a function CAN apply to a file, it should execute once before exiting	
 
 BUG FUNCTION IDEAS:
--Use Regex to change snake_case to CamelCase.
--Insert charachter at random point in the line.
+-Use Regex to change snake_case to CamelCase
+-Insert charachter at random point in the line
 	-Duplicate the charachter?

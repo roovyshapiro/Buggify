@@ -209,6 +209,9 @@ def char_switch(filelist, num_bugs):
     return filelist, num_bugs
     
 def case_switch(filelist, num_bugs):
+    '''
+    Randomly switch the first charachter in a word from lower to upper and vice versae.
+    '''
     num_times = num_bugs
     while num_times == num_bugs:
         line_index, line_char_list = random_line(filelist)
