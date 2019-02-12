@@ -2,20 +2,22 @@ import random
 
 def random_line(filelist):
     '''
-    Gets a random non commented line from the file as a string
-    and returns it as a list of charachters.
+    Gets a random line from the file as a string
+    (as long as it's not empty or a comment)
+    and returns it as a list of charachters along with the chosen index.
     '''
     line_list = []
-    while not line_list: #make sure not to get an empty line
-        try: #in case its zero
-            random_num = random.randint(0, len(filelist) - 1)
+    while not line_list:
+        #An index of Zero will result in ValueError so it's set to zero to avoid the error.
+        try: 
+            random_line_index = random.randint(0, len(filelist) - 1)
         except ValueError:
-            random_num = 0
-        if (not filelist[random_num].strip().startswith('#') and
-            not filelist[random_num].strip().startswith("'''") and
-            not filelist[random_num].strip().startswith('"""')):
-            line_list = list(filelist[random_num])
-    return random_num, line_list
+            random_line_index = 0
+        if (not filelist[random_line_index].strip().startswith('#') and
+            not filelist[random_line_index].strip().startswith("'''") and
+            not filelist[random_line_index].strip().startswith('"""')):
+            line_list = list(filelist[random_line_index])
+    return random_line_index, line_list
 
 
 def single_char_swap(filelist, num_bugs, char1, char2):
