@@ -66,7 +66,7 @@ def diff_output(file, bugfile, answers):
     return answers
 
 
-def buggify(full_file_path = '', num_bugs = 10):
+def buggify(full_file_path = '', num_bugs = 20):
     '''
     Main Buggify function.
     1. Creates buggified copies of file

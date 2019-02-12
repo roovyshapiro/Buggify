@@ -13,9 +13,11 @@ def random_line(filelist):
             random_line_index = random.randint(0, len(filelist) - 1)
         except ValueError:
             random_line_index = 0
-        if (not filelist[random_line_index].strip().startswith('#') and
-            not filelist[random_line_index].strip().startswith("'''") and
-            not filelist[random_line_index].strip().startswith('"""')):
+        if (filelist[random_line_index].strip().startswith('#') and
+            filelist[random_line_index].strip().startswith("'''") and
+            filelist[random_line_index].strip().startswith('"""')):
+            continue
+        else:
             line_list = list(filelist[random_line_index])
     return random_line_index, line_list
 
