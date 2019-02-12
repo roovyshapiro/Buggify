@@ -66,7 +66,7 @@ def diff_output(file, bugfile, answers):
     return answers
 
 
-def buggify(full_file_path = '', num_bugs = 0):
+def buggify(full_file_path = '', num_bugs = 10):
     '''
     Main Buggify function.
     1. Creates buggified copies of file
@@ -82,8 +82,6 @@ def buggify(full_file_path = '', num_bugs = 0):
     filelist = convert_to_list(copy_of_file)
     
     answer_key = alter_file_name(original_file, 'BUG-ANSWERKEY')
-    if num_bugs == 0:
-        num_bugs = 10
     while num_bugs > 1:
         random_num = random.randint(0,len(bf.function_list) - 1)
         filelist, num_bugs = bf.function_list[random_num](filelist, num_bugs)
