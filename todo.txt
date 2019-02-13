@@ -1,30 +1,39 @@
-NEW FEATURES:
--The program's initialization should be done as a function, so you can simple type "buggify()"
--Allow for the input of declared files so the entire function can run on multiple files
-	#For each file in this directory:
-	#	buggify(each file)
+***NEW FEATURES***
+
 -Consider consolidating both py files into one file for easier use
 -Alternatively pursue a GUI implementation / Pyinstaller
-
 -Grammar mode
-	-Allows for automatic inputting of Grammar, spelling and punctuation errors geared more towards education
+	-Allows for automatic inputting of Grammar, spelling and punctuation errors 
+	 geared more towards education
 -Programming Language specific bugs 
 	-Possible abstraction of functions to be more customizable based on the language
 	-Automatically detect language based on file extension
 
-ISSUES:
+
+***ISSUES***
+
 -Diff with more context so the line_switch function diff makes more sense
--Change variables to be more descriptive eg. "mylist"
--Add additional comments
+	-Tabling this for now as I tried it but it felt more confusing
+-Rename local function variables to be more descriptive 
+	-eg. "random_line_index" instead of "random_num", rename "mylist" etc.
+-Documentation
+	-Add additional comments
+	-Rewrite DocStrings to be more descriptive
+	-Consider writing a detailed guide for how this all works together
 -Functions are inconsistent regarding how many times they run 
 	-Some functions exit without executing since they don't fulfill all conditionals
 	-Some functions will not exit until it is executed at least once
 	-Ideally, all functions should not exit without executing once
 		-Consider a case where a function does not apply to any of the lines in the file
-		-"bugged_docstring" would result in an infinite loop if there are no docstrings in the file
-		-Thus for consistency, if a function CAN apply to a file, it should execute once before exiting	
+		-"bugged_docstring" would result in an infinite loop 
+		 if there are no docstrings in the file
+		-Thus for consistency, if a function CAN apply to a file, 
+		 it should execute once before exiting	
 
-BUG FUNCTION IDEAS:
--Use Regex to change snake_case to CamelCase
+
+***BUG FUNCTION IDEAS***
+
+-Use Regex to change snake_case to CamelCase and vice versae
 -Insert charachter at random point in the line
 	-Duplicate the charachter?
+-Replace "=" with "==" and vice versae
