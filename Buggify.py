@@ -64,6 +64,14 @@ def buggify(full_file_path = '', num_bugs = 20):
     1. Creates buggified copies of file
     2. Runs bug functions to add in errors
     3. Outputs the answer key diff
+
+    Optional Arguments:
+    full_file_path: str
+        The full file path of the file to buggify.
+        May leave blank to be prompted to choose file.
+    num_bugs: int
+        The amount of bugs to introduce.
+        Defaults to 20 if left blank.
     '''
     if full_file_path == '':
         #Removes small Tk window and prompts user to choose file.
@@ -84,5 +92,5 @@ def buggify(full_file_path = '', num_bugs = 20):
 
     diff_output(original_file, copy_of_file, answer_key)
 
-
-
+#call the main function to allow for easy testing
+buggify()
