@@ -36,14 +36,6 @@ def convert_to_list(file):
     return filelist
 
 
-def write_changes(file, filechanges):
-    '''
-    Writes the changes we made to our file.
-    '''
-    with open(file, 'w') as f:
-        f.write(filechanges)
-    return file
-
 def diff_output(file, bugfile, answers):
     '''
     Returns a diff file between the original file and the buggified file.
@@ -72,6 +64,14 @@ def buggify(full_file_path = '', num_bugs = 20):
     1. Creates buggified copies of file
     2. Runs bug functions to add in errors
     3. Outputs the answer key diff
+
+    Optional Arguments:
+    full_file_path: str
+        The full file path of the file to buggify.
+        May leave blank to be prompted to choose file.
+    num_bugs: int
+        The amount of bugs to introduce.
+        Defaults to 20 if left blank.
     '''
     if full_file_path == '':
         #Removes small Tk window and prompts user to choose file.
@@ -87,9 +87,10 @@ def buggify(full_file_path = '', num_bugs = 20):
         filelist, num_bugs = bf.function_list[random_num](filelist, num_bugs)
         
     filechanges = '\n'.join(filelist)
+    with open(copy_of_file, 'w') as f:
+        f.write(filechanges)
 
-    finalbugs = write_changes(copy_of_file, filechanges)
     diff_output(original_file, copy_of_file, answer_key)
 
-
-
+#call the main function to allow for easy testing
+buggify()
