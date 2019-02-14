@@ -49,23 +49,22 @@ def tabs_spaces(filelist, num_bugs):
     Randomly adds or subtracts a space in a tabbed line,
     or adds a tab or double tab where it doesn't belong.
     '''
-    mylist = []
-    random_num, mylist = random_line(filelist)
-    flag = random.randint(0,1)
-    if mylist[:4] == [' ', ' ', ' ', ' ']:
-        if flag:
-            mylist.insert(0, ' ')
-        else:
-            del mylist[0]
-    elif flag:
-        for x in range(4):
-            mylist.insert(0, ' ')
+    line_index, line_char_list = random_line(filelist)
+    randomizer = random.randint(0,2)
+    if line_char_list[:4] == [' ', ' ', ' ', ' ']:
+        if randomizer == 0:
+            line_char_list.insert(0, ' ')
+        elif randomizer == 1:
+            del line_char_list[0]
+        elif randomizer == 2:
+            for x in range(4):
+                line_char_list.insert(0, ' ')  
     else:
-        for x in range(8):
-            mylist.insert(0, ' ')
+        for x in range(4):
+            line_char_list.insert(0, ' ')
 
     num_bugs -=1                      
-    filelist[random_num] = ''.join(mylist)
+    filelist[line_index] = ''.join(line_char_list)
     return filelist, num_bugs
 
 def num_change(filelist, num_bugs):
