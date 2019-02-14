@@ -22,9 +22,9 @@ def random_line(filelist):
     return random_line_index, line_list
 
 
-def single_char_swap(filelist, num_bugs, char1, char2):
+def single_char_switch(filelist, num_bugs, char1, char2):
     '''
-    Randomly swaps two supplied characters for each other.
+    Randomly switch two supplied characters for each other.
     '''
     line_index, line_char_list = random_line(filelist) 
     line_char_list = filelist[line_index].split(' ')
@@ -90,39 +90,39 @@ def num_change(filelist, num_bugs):
     return filelist, num_bugs
 
 
-def period_swap(filelist, num_bugs):
+def period_switch(filelist, num_bugs):
     '''
-    Randomly change period to a comma and vice versae.
+    Randomly switch period to a comma and vice versae.
     '''
-    new_filelist, num_bugs_update = single_char_swap(filelist, num_bugs, ',', '.')
+    new_filelist, num_bugs_update = single_char_switch(filelist, num_bugs, ',', '.')
     return new_filelist, num_bugs_update
     
 
-def zero_o(filelist, num_bugs):
+def zero_o_switch(filelist, num_bugs):
     '''
-    Randomly change 'o' to a Zero and vice versae.
+    Randomly switch 'o' to a Zero and vice versae.
     '''
-    new_filelist, num_bugs_update = single_char_swap(filelist, num_bugs, 'o', '0')
+    new_filelist, num_bugs_update = single_char_switch(filelist, num_bugs, 'o', '0')
     return new_filelist, num_bugs_update
 
-def elif_else(filelist, num_bugs):
+def elif_else_switch(filelist, num_bugs):
     '''
-    Randomly change 'elif' to 'else' and vice versae.
+    Randomly switch 'elif' to 'else' and vice versae.
     '''
-    new_filelist, num_bugs_update = single_char_swap(filelist, num_bugs, 'elif', 'else')
+    new_filelist, num_bugs_update = single_char_switch(filelist, num_bugs, 'elif', 'else')
     return new_filelist, num_bugs_update
 
-def parentheses(filelist, num_bugs):
+def parentheses_switch(filelist, num_bugs):
     '''
-    Randomly changes brackets, parentheses and curly braces.
+    Randomly switch brackets, parentheses_switch and curly braces with each other.
     '''
     bracks_open = ['(','{','[',':',]
     bracks_closed = [')','}',']',';',':']
     randomizer = random.randint(0,1)
     if randomizer:
-        new_filelist, num_bugs_update = single_char_swap(filelist, num_bugs,random.choice(bracks_open), random.choice(bracks_open))
+        new_filelist, num_bugs_update = single_char_switch(filelist, num_bugs,random.choice(bracks_open), random.choice(bracks_open))
     else:
-        new_filelist, num_bugs_update = single_char_swap(filelist, num_bugs,random.choice(bracks_closed), random.choice(bracks_closed))
+        new_filelist, num_bugs_update = single_char_switch(filelist, num_bugs,random.choice(bracks_closed), random.choice(bracks_closed))
 
     return new_filelist, num_bugs_update
 
@@ -227,21 +227,25 @@ def case_switch(filelist, num_bugs):
     filelist[line_index] = ''.join(line_char_list)
     return filelist, num_bugs
 
-def equal_swap(filelist, num_bugs):
+def equal_switch(filelist, num_bugs):
     '''
     Switch '=' to '==' and vice versae
     '''
     line_index, line_char_list = random_line(filelist)
-    setflag = 'True'
     for char_index in range(len(line_char_list)):
         if '=' not in line_char_list:
             break
-        randomizer = random.randint(0,5)
-        if line_char_list[char_index] == '=' and line_char_list[char_index + 1] == '=' and randomizer == 1:
+        randomizer = random.randint(0,2)
+        if (line_char_list[char_index] == '=' and
+            line_char_list[char_index + 1] == '=' and
+            randomizer == 1):           
             line_char_list[char_index + 1] = ''
             num_bugs -= 1
             break
-        elif line_char_list[char_index] == '=' and line_char_list[char_index + 1] != '=' and randomizer == 2:
+        elif (line_char_list[char_index] == '=' and
+              line_char_list[char_index + 1] != '=' and
+              line_char_list[char_index - 1] != '=' and #this prevents '==' from becoming '==='
+              randomizer == 2):            
             line_char_list.insert(char_index + 1, '=')
             num_bugs -= 1
             break
@@ -252,17 +256,17 @@ def equal_swap(filelist, num_bugs):
     
 
 #List of all the bugs which buggify randomly chooses from to implement.    
-##function_list = [
-##                 zero_o,
-##                 parentheses,
-##                 bugged_comment,
-##                 bugged_docstring,
-##                 period_swap,
-##                 tabs_spaces,
-##                 num_change,
-##                 elif_else,
-##                 line_switch,
-##                 char_switch,
-##                 case_switch,
-##                 ]
-function_list = [equal_swap]
+function_list = [
+                 bugged_comment,
+                 bugged_docstring,
+                 tabs_spaces,
+                 num_change,
+                 zero_o_switch,
+                 parentheses_switch,
+                 elif_else_switch,
+                 period_switch,
+                 line_switch,
+                 char_switch,
+                 case_switch,
+                 equal_switch,
+                 ]
