@@ -4,7 +4,7 @@ def random_line(filelist):
     '''
     Gets a random line from the file as a string
     (as long as it's not empty or a comment)
-    and returns it as a list of charachters along with the chosen index.
+    and returns it as a list of characters along with the chosen index.
     '''
     line_list = []
     while not line_list:
@@ -24,27 +24,24 @@ def random_line(filelist):
 
 def single_char_swap(filelist, num_bugs, char1, char2):
     '''
-    Randomly swaps two supplied charachters for each other.
+    Randomly swaps two supplied characters for each other.
     '''
-    mylist = []
-    random_num, mylist = random_line(filelist)
-    mylist = filelist[random_num].split(' ')
-    for x in range(len(mylist)):
+    line_index, line_char_list = random_line(filelist) 
+    line_char_list = filelist[line_index].split(' ')
+    for x in range(len(line_char_list)):
         randomizer = random.randint(0,1)   #not too many on same line
-        if randomizer:
-            if char1 in mylist[x]:
-                mylist[x] = mylist[x].replace(char1, char2)
+        if randomizer == 1:
+            if char1 in line_char_list[x]:
+                line_char_list[x] = line_char_list[x].replace(char1, char2)
                 num_bugs -=1
                 break
-            elif char2 in mylist[x]:
-                mylist[x] = mylist[x].replace(char2, char1)
+            elif char2 in line_char_list[x]:
+                line_char_list[x] = line_char_list[x].replace(char2, char1)
                 num_bugs -=1
                 break
-            else:
-                continue
         elif randomizer == 0:
             continue        
-    filelist[random_num] = ' '.join(mylist)
+    filelist[line_index] = ' '.join(line_char_list)
     return filelist, num_bugs
 
 def tabs_spaces(filelist, num_bugs):
@@ -52,23 +49,22 @@ def tabs_spaces(filelist, num_bugs):
     Randomly adds or subtracts a space in a tabbed line,
     or adds a tab or double tab where it doesn't belong.
     '''
-    mylist = []
-    random_num, mylist = random_line(filelist)
-    flag = random.randint(0,1)
-    if mylist[:4] == [' ', ' ', ' ', ' ']:
-        if flag:
-            mylist.insert(0, ' ')
-        else:
-            del mylist[0]
-    elif flag:
-        for x in range(4):
-            mylist.insert(0, ' ')
+    line_index, line_char_list = random_line(filelist)
+    randomizer = random.randint(0,2)
+    if line_char_list[:4] == [' ', ' ', ' ', ' ']:
+        if randomizer == 0:
+            line_char_list.insert(0, ' ')
+        elif randomizer == 1:
+            del line_char_list[0]
+        elif randomizer == 2:
+            for x in range(4):
+                line_char_list.insert(0, ' ')  
     else:
-        for x in range(8):
-            mylist.insert(0, ' ')
+        for x in range(4):
+            line_char_list.insert(0, ' ')
 
     num_bugs -=1                      
-    filelist[random_num] = ''.join(mylist)
+    filelist[line_index] = ''.join(line_char_list)
     return filelist, num_bugs
 
 def num_change(filelist, num_bugs):
@@ -190,7 +186,7 @@ def line_switch(filelist, num_bugs):
 
 def char_switch(filelist, num_bugs):
     '''
-    Randomly switch a charachter with the one before it.
+    Randomly switch a character with the one before it.
     '''
     line_index, line_char_list = random_line(filelist)
     random_num = random.randint(0, len(line_char_list) - 1)
@@ -214,7 +210,7 @@ def char_switch(filelist, num_bugs):
     
 def case_switch(filelist, num_bugs):
     '''
-    Randomly switch the first charachter in a word from lower to upper and vice versae.
+    Randomly switch the first character in a word from lower to upper and vice versae.
     '''
     num_times = num_bugs
     while num_times == num_bugs:
