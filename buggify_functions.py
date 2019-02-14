@@ -26,25 +26,22 @@ def single_char_swap(filelist, num_bugs, char1, char2):
     '''
     Randomly swaps two supplied charachters for each other.
     '''
-    mylist = []
-    random_num, mylist = random_line(filelist)
-    mylist = filelist[random_num].split(' ')
-    for x in range(len(mylist)):
+    line_index, line_char_list = random_line(filelist) 
+    line_char_list = filelist[line_index].split(' ')
+    for x in range(len(line_char_list)):
         randomizer = random.randint(0,1)   #not too many on same line
-        if randomizer:
-            if char1 in mylist[x]:
-                mylist[x] = mylist[x].replace(char1, char2)
+        if randomizer == 1:
+            if char1 in line_char_list[x]:
+                line_char_list[x] = line_char_list[x].replace(char1, char2)
                 num_bugs -=1
                 break
-            elif char2 in mylist[x]:
-                mylist[x] = mylist[x].replace(char2, char1)
+            elif char2 in line_char_list[x]:
+                line_char_list[x] = line_char_list[x].replace(char2, char1)
                 num_bugs -=1
                 break
-            else:
-                continue
         elif randomizer == 0:
             continue        
-    filelist[random_num] = ' '.join(mylist)
+    filelist[line_index] = ' '.join(line_char_list)
     return filelist, num_bugs
 
 def tabs_spaces(filelist, num_bugs):
