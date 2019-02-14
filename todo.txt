@@ -12,14 +12,10 @@
 
 ***ISSUES***
 
--Diff with more context so the line_switch function diff makes more sense
-	-Tabling this for now as I tried it but it felt more confusing
--Rename local function variables to be more descriptive 
-	-eg. "random_line_index" instead of "random_num", rename "mylist" etc.
--Documentation
-	-Add additional comments
-	-Rewrite DocStrings to be more descriptive
-	-Consider writing a detailed guide for how this all works together
+-Must test with various file types to anticipate encoding errors.
+-Must test with various file types to anticipate errors with bugs not 
+ able to be applied. For example, what if a text file doesn't contain triple quotes -
+ ''' , how will it react?
 -Functions are inconsistent regarding how many times they run 
 	-Some functions exit without executing since they don't fulfill all conditionals
 	-Some functions will not exit until it is executed at least once
@@ -29,6 +25,15 @@
 		 if there are no docstrings in the file
 		-Thus for consistency, if a function CAN apply to a file, 
 		 it should execute once before exiting	
+		 
+-Diff with more context so the line_switch function diff makes more sense
+	-Tabling this for now as I tried it but it felt more confusing
+-Rename local function variables to be more descriptive 
+	-eg. "random_line_index" instead of "random_num", rename "mylist" etc.
+-Documentation
+	-Add additional comments
+	-Rewrite DocStrings to be more descriptive
+	-Consider writing a detailed guide for how this all works together
 
 
 ***BUG FUNCTION IDEAS***
@@ -36,4 +41,3 @@
 -Use Regex to change snake_case to CamelCase and vice versae
 -Insert charachter at random point in the line
 	-Duplicate the charachter?
--Replace "=" with "==" and vice versae
