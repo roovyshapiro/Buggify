@@ -231,19 +231,42 @@ def case_switch(filelist, num_bugs):
     filelist[line_index] = ''.join(line_char_list)
     return filelist, num_bugs
 
+def equal_swap(filelist, num_bugs):
+    '''
+    Switch '=' to '==' and vice versae
+    '''
+    line_index, line_char_list = random_line(filelist)
+    setflag = 'True'
+    for char_index in range(len(line_char_list)):
+        if '=' not in line_char_list:
+            break
+        randomizer = random.randint(0,5)
+        if line_char_list[char_index] == '=' and line_char_list[char_index + 1] == '=' and randomizer == 1:
+            line_char_list[char_index + 1] = ''
+            num_bugs -= 1
+            break
+        elif line_char_list[char_index] == '=' and line_char_list[char_index + 1] != '=' and randomizer == 2:
+            line_char_list.insert(char_index + 1, '=')
+            num_bugs -= 1
+            break
+    filelist[line_index] = ''.join(line_char_list)
+    return filelist, num_bugs
+ 
+
     
 
 #List of all the bugs which buggify randomly chooses from to implement.    
-function_list = [
-                 zero_o,
-                 parentheses,
-                 bugged_comment,
-                 bugged_docstring,
-                 period_swap,
-                 tabs_spaces,
-                 num_change,
-                 elif_else,
-                 line_switch,
-                 char_switch,
-                 case_switch,
-                 ]
+##function_list = [
+##                 zero_o,
+##                 parentheses,
+##                 bugged_comment,
+##                 bugged_docstring,
+##                 period_swap,
+##                 tabs_spaces,
+##                 num_change,
+##                 elif_else,
+##                 line_switch,
+##                 char_switch,
+##                 case_switch,
+##                 ]
+function_list = [equal_swap]
