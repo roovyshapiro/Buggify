@@ -61,17 +61,17 @@ def diff_output(file, bugfile, answers):
 def buggify(num_bugs = 20, full_file_path = ''):
     '''
     Main Buggify function.
-    1. Creates buggified copies of file
-    2. Runs bug functions to add in errors
-    3. Outputs the answer key diff
+    1. Creates copy of file and alters the filename
+    2. Runs random bug functions to add errors into the copy of the file
+    3. Outputs the answer key diff showing the bugs that were introduced
 
     Optional Arguments:
-    full_file_path: str
-        The full file path of the file to buggify.
-        May leave blank to be prompted to choose file.
     num_bugs: int
         The amount of bugs to introduce.
         Defaults to 20 if left blank.
+    full_file_path: str
+        The full file path of the file to buggify.
+        May leave blank to be prompted to choose file.
     '''
     if full_file_path == '':
         #Removes small Tk window and prompts user to choose file.
