@@ -131,17 +131,18 @@ def bugged_comment(filelist, num_bugs):
     Replaces comment with a specified comment.
     '''
     bug_comment = '#THIS COMMENT HAS BEEN BUGGIFIED!'
-    flag = True
-    while flag:
-        for line in range(len(filelist)):
-            #Sometimes this function will buggify a buggified docstring. need to review
-            if filelist[line].strip().startswith('#') and random.randint(1, 5) == 1:
-                filelist[line] = bug_comment
-                flag = False
-                num_bugs -= 1
-                break
-            else:
-                continue
+    for line_index in range(len(filelist)):
+        #Prevents conflict with bugged_docstring()
+        if 'DOCSTRING' in filelist[line_index] or '#' not in filelist[line_index]:  
+            continue
+        hash_index = filelist[line_index].index('#')
+        #A '#" without a white space prior to it is not considered a comment
+        #Take ".index('#')" in the previous line as an example
+        if filelist[line_index][hash_index - 1].isspace() and random.randint(1, 3) == 1:
+            line_list = list(filelist[line_index])
+            filelist[line_index] = ''.join(line_list[:hash_index]) + bug_comment
+            num_bugs -= 1
+            break
     return filelist, num_bugs
 
 def bugged_docstring(filelist, num_bugs):
