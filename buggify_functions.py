@@ -71,22 +71,23 @@ def num_change(filelist, num_bugs):
     '''
     Randomly adds or subtracts an int by 1.
     '''
-    mylist = []
-    random_num, mylist = random_line(filelist)
-    for x in range(len(mylist)):
+    line_index, line_char_list = random_line(filelist) 
+    for char_index in range(len(line_char_list)):
         randomizer = random.randint(0,2)
-        if mylist[x].isdigit() and randomizer != 2:
-            mylist[x] = int(mylist[x])
-            if randomizer:
-                mylist[x] += 1
+        if line_char_list[char_index].isdigit() and randomizer != 2:
+            line_char_list[char_index] = int(line_char_list[char_index])
+            if line_char_list[char_index] == 0:
+                line_char_list[char_index] += 1
             elif randomizer == 0:
-                mylist[x] -= 1
+                line_char_list[char_index] += 1
+            elif randomizer == 1:
+                line_char_list[char_index] -= 1
             num_bugs -= 1
-            mylist[x] = str(mylist[x])
+            line_char_list[char_index] = str(line_char_list[char_index])
             break
         else:
             continue
-    filelist[random_num] = ''.join(mylist)
+    filelist[line_index] = ''.join(line_char_list)
     return filelist, num_bugs
 
 
