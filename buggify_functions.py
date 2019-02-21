@@ -237,17 +237,18 @@ def equal_switch(filelist, num_bugs):
     for char_index in range(len(line_char_list)):
         if '=' not in line_char_list:
             break
-        randomizer = random.randint(0,2)
+        randomizer = random.randint(0,1)
         if (line_char_list[char_index] == '=' and
             line_char_list[char_index + 1] == '=' and
-            randomizer == 1):           
+            randomizer == 0):           
             line_char_list[char_index + 1] = ''
             num_bugs -= 1
             break
         elif (line_char_list[char_index] == '=' and
+              #prevent '==' -> '===', '!=' -> '!==', '+=' -> '+==' , '-=' -> '-=='
               line_char_list[char_index + 1] != '=' and
-              line_char_list[char_index - 1] != '=' and #this prevents '==' from becoming '==='
-              randomizer == 2):            
+              line_char_list[char_index - 1] not in ['=','!','+','-'] and 
+              randomizer == 1):            
             line_char_list.insert(char_index + 1, '=')
             num_bugs -= 1
             break
