@@ -254,9 +254,37 @@ def equal_switch(filelist, num_bugs):
             break
     filelist[line_index] = ''.join(line_char_list)
     return filelist, num_bugs
- 
 
-    
+def camel_snake_case(filelist, num_bugs):
+    '''
+    Converts snake_case to camelCase and vice versae.
+    '''
+    line_index, line_char_list = random_line(filelist)
+
+    #If the line contains at least one underscore,
+    #For every underscore in the line,
+    #the letter before the underscore is capitalized
+    #and the underscore is removed.
+    #All the changes made in this line are counted as one num_bug.
+    if '_' in line_char_list:
+        for char_index in range(len(line_char_list)):
+            if line_char_list[char_index] == '_':
+                line_char_list[char_index + 1] = line_char_list[char_index + 1].upper()
+                line_char_list[char_index] = ''
+        num_bugs -= 1
+    #Else if the line contains no underscores,
+    #For every uppercase letter in the line which has an alphanumeric character before it,
+    #each uppercase letter is made lower case with an underscore inserted before it.
+    #All the changes made in this line are counted as one num_bug.
+    elif '_' not in line_char_list:
+        for char_index in range(len(line_char_list)):
+            if line_char_list[char_index].isupper() and line_char_list[char_index - 1].isalnum():
+                line_char_list.insert(char_index, '_')
+                line_char_list[char_index + 1] = line_char_list[char_index + 1].lower()
+        num_bugs -= 1
+
+    filelist[line_index] = ''.join(line_char_list)
+    return filelist, num_bugs   
 
 #List of all the bugs which buggify randomly chooses from to implement.    
 function_list = [
@@ -272,4 +300,5 @@ function_list = [
                  char_switch,
                  case_switch,
                  equal_switch,
+                 camel_snake_case
                  ]

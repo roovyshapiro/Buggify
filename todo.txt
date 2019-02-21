@@ -21,8 +21,8 @@
 	-Some functions will not exit until it is executed at least once
 	-Ideally, all functions should not exit without executing once
 		-Consider a case where a function does not apply to any of the lines in the file
-		-"bugged_docstring" would result in an infinite loop 
-		 if there are no docstrings in the file
+		-"bugged_docstring" would result in an infinite loop if 
+		 there are no docstrings in the file
 		-Thus for consistency, if a function CAN apply to a file, 
 		 it should execute once before exiting	
 		 
@@ -38,6 +38,6 @@
 
 ***BUG FUNCTION IDEAS***
 
--Use Regex to change snake_case to CamelCase and vice versae
 -Insert charachter at random point in the line
 	-Duplicate the charachter?
+-Insert a colon at the end of a line or remove it and vice versae
