@@ -35,6 +35,7 @@
 	-Rewrite DocStrings to be more descriptive
 	-Consider writing a detailed guide for how this all works together
 -char_switch() is switching characters with white space but it isn't supposed to.
+-The ANSWERKEY diff file should have its extension renamed to .txt to make it easier to read.
 
 ***BUG FUNCTION IDEAS***
 
