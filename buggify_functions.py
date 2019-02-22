@@ -284,7 +284,66 @@ def camel_snake_case(filelist, num_bugs):
         num_bugs -= 1
 
     filelist[line_index] = ''.join(line_char_list)
-    return filelist, num_bugs   
+    return filelist, num_bugs
+
+def if_switch(filelist, num_bugs):
+    '''
+    This function either:
+    Removes an 'if' from the beginning of a line
+    and the ':' from the end of a line,
+    OR adds an 'if' to the beginning and ':' to the end of the line,
+    and indents the following line with four additional spaces
+    '''
+    #Get random line from the file
+    random_line_index = random.randint(0, len(filelist) - 1)
+
+    #Make sure we don't get empty list or list full of whitespaces
+    while len(set(filelist[random_line_index])) <= 1:
+        random_line_index = random.randint(0, len(filelist) - 1)
+        #Make sure we don't get the last line in the file
+        try:
+            filelist[random_line_index + 1] != ''
+        except IndexError:
+            random_line_index = random.randint(0, len(filelist) - 1)
+    #Remove whitespaces from end of line to ensure that the ':' is the [-1] index.       
+    filelist[random_line_index] = filelist[random_line_index].rstrip()
+
+    #If 'if' is in the line and the last character is ':'
+    #delete if, ':' and a whitespace character if that line is indented
+    if filelist[random_line_index][-1] == ':':
+        if 'if' in filelist[random_line_index] and 'elif' not in filelist[random_line_index]:
+            if_index = filelist[random_line_index].index('if')
+            line_list = list(filelist[random_line_index])
+            del line_list[if_index + 1]
+            del line_list[if_index]
+            del line_list[-1]
+            if line_list[0] == ' ':
+                del line_list[0]
+            filelist[random_line_index] = ''.join(line_list)
+
+    #If the last character is not a ':',
+    #Add an 'if' after the initial whitespaces with a colon at the end.
+    #Additionally, add four white spaces to the beginning of the next line
+    elif filelist[random_line_index][-1] != ':' and filelist[random_line_index + 1] != '':
+        line_list = list(filelist[random_line_index]) 
+        for char_index in range(len(line_list)):
+            if line_list[char_index] == ' ':
+                continue
+            else:
+                line_list.insert(char_index, 'i')
+                line_list.insert(char_index + 1, 'f')
+                line_list.insert(char_index + 2, ' ')
+                line_list.append(':')
+                filelist[random_line_index] = ''.join(line_list)
+                break
+        next_line_list = list(filelist[random_line_index + 1])
+        for x in range(4):
+            next_line_list.insert(0, ' ')
+        filelist[random_line_index + 1] = ''.join(next_line_list)
+        
+    num_bugs -= 1
+    return filelist, num_bugs
+
 
 #List of all the bugs which buggify randomly chooses from to implement.    
 function_list = [
@@ -300,5 +359,6 @@ function_list = [
                  char_switch,
                  case_switch,
                  equal_switch,
-                 camel_snake_case
+                 camel_snake_case,
+                 if_switch,
                  ]
