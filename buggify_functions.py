@@ -1,25 +1,31 @@
 import random
 
-def random_line(filelist):
+def random_line(filelist, opt_arg = 'line_list'):
     '''
     Gets a random line from the file as a string
     (as long as it's not empty or a comment)
     and returns it as a list of characters along with the chosen index.
     '''
-    line_list = []
-    while not line_list:
-        #An index of Zero will result in ValueError so it's set to zero to avoid the error.
-        try: 
+    random_line_index = random.randint(0, len(filelist) - 1)
+
+    #To avoid errors, continue to choose a random line until one is retrieved that
+    #isn't a comment, 
+    #isn't empty,
+    #isn't full of whitespaces,
+    #isn't the first or last line
+    while  (filelist[random_line_index].strip().startswith('#') or
+            filelist[random_line_index].strip().startswith("'''") or
+            filelist[random_line_index].strip().startswith('"""') or
+            len(set(filelist[random_line_index])) <= 1 or
+            random_line_index == len(filelist) or
+            random_line_index == 0):
+
             random_line_index = random.randint(0, len(filelist) - 1)
-        except ValueError:
-            random_line_index = 0
-        if (filelist[random_line_index].strip().startswith('#') and
-            filelist[random_line_index].strip().startswith("'''") and
-            filelist[random_line_index].strip().startswith('"""')):
-            continue
-        else:
-            line_list = list(filelist[random_line_index])
-    return random_line_index, line_list
+    
+    if opt_arg == 'line_list':
+        line_list = list(filelist[random_line_index])
+        return random_line_index, line_list 
+    return random_line_index
 
 
 def single_char_switch(filelist, num_bugs, char1, char2):
@@ -294,17 +300,10 @@ def if_switch(filelist, num_bugs):
     OR adds an 'if' to the beginning and ':' to the end of the line,
     and indents the following line with four additional spaces
     '''
-    #Get random line from the file
-    random_line_index = random.randint(0, len(filelist) - 1)
+    #Get random line index from the line
+    #and doesn't return the line as a list of characters
+    random_line_index = random_line(filelist, 'no_line_list')
 
-    #Make sure we don't get empty list or list full of whitespaces
-    while len(set(filelist[random_line_index])) <= 1:
-        random_line_index = random.randint(0, len(filelist) - 1)
-        #Make sure we don't get the last line in the file
-        try:
-            filelist[random_line_index + 1] != ''
-        except IndexError:
-            random_line_index = random.randint(0, len(filelist) - 1)
     #Remove whitespaces from end of line to ensure that the ':' is the [-1] index.       
     filelist[random_line_index] = filelist[random_line_index].rstrip()
 
