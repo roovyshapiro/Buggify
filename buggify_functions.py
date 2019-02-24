@@ -174,21 +174,15 @@ def bugged_docstring(filelist, num_bugs):
 def line_switch(filelist, num_bugs):
     '''
     Randomly switch a line with the one before it.
-    '''
-    randomizer = random.randint(0, len(filelist) - 1)
-    first_line = filelist[randomizer]
-    #restart the function if one the lines is empty
-    if filelist[randomizer] == '' or filelist[randomizer - 1] == '':
-        line_switch(filelist, num_bugs)
-    #we can't pick the previous line if the first line is chosen
-    if randomizer == 0:
-        second_line = filelist[randomizer + 1]
-        filelist[randomizer] = second_line
-        filelist[randomizer + 1] = first_line
-    else:
-        second_line = filelist[randomizer - 1]
-        filelist[randomizer] = second_line
-        filelist[randomizer - 1] = first_line
+    '''   
+    random_line_index = random_line(filelist, 'no_line_list')
+
+    first_line = filelist[random_line_index]
+    second_line = filelist[random_line_index - 1]
+    
+    filelist[random_line_index] = second_line
+    filelist[random_line_index - 1] = first_line
+    
     num_bugs -= 1
     return filelist, num_bugs
 
