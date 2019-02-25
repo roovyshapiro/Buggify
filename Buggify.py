@@ -13,17 +13,21 @@ def copy_file(file):
 
     return file, buggified_file
 
-def alter_file_name(full_file_path, word_to_insert):
+def alter_file_name(full_file_path, word_to_insert, opt_arg = 'same_ext'):
     '''
     Returns a filename with a word inserted between a filename and its extension.
+    Optional argument of 'text' returns the altered filename as .txt file.
     '''
     path_of_file = os.path.split(full_file_path)
     
     ext_num = len(path_of_file[1]) - path_of_file[1].find('.')
     ext = path_of_file[1][-ext_num:]
     filename = path_of_file[1][:-ext_num]
-    
-    new_filename = filename + word_to_insert + ext
+    if opt_arg == 'same_ext':
+        new_filename = filename + word_to_insert + ext
+    elif opt_arg == 'text':
+        new_filename = filename + word_to_insert + ext + '.txt'
+
     return new_filename
 
 
@@ -77,11 +81,10 @@ def buggify(num_bugs = 20, full_file_path = ''):
         #Removes small Tk window and prompts user to choose file.
         Tk().withdraw()
         full_file_path = askopenfilename()
-    original_file, copy_of_file = copy_file(full_file_path)
-    
+    original_file, copy_of_file = copy_file(full_file_path)   
     filelist = convert_to_list(copy_of_file)
-    
-    answer_key = alter_file_name(original_file, 'BUG-ANSWERKEY')
+    #Answer key becomes a .txt file for easier reviewing
+    answer_key = alter_file_name(original_file, 'BUG-ANSWERKEY', 'text')
     while num_bugs > 1:
         random_num = random.randint(0,len(bf.function_list) - 1)
         filelist, num_bugs = bf.function_list[random_num](filelist, num_bugs)
