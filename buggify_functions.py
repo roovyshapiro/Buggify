@@ -187,23 +187,24 @@ def line_switch(filelist, num_bugs):
 
 def char_switch(filelist, num_bugs):
     '''
-    Randomly switch a character with the one before it.
+    Switch a randomly chosen character with the one before it,
+    provided the character chosen isn't the first index
+    and its previous character is not a white space.
     '''
     line_index, line_char_list = random_line(filelist)
-    random_num = random.randint(0, len(line_char_list) - 1)
+    random_index = random.randint(0, len(line_char_list) - 1)
 
-    #don't switch with whitespace
-    if line_char_list[random_num] == ' ' or line_char_list[random_num - 1] == ' ':
-        char_switch(filelist, num_bugs)
-    char = line_char_list[random_num]
-    #we can't use the previous char, if the first char is chosen
-    if random_num != 0: 
-        prev_char = line_char_list[random_num - 1]
-        line_char_list[random_num - 1] = char
-    else:
-        prev_char = line_char_list[random_num + 1]
-        line_char_list[random_num + 1] = char
-    line_char_list[random_num] = prev_char
+    while (line_char_list[random_index] == ' ' or
+           line_char_list[random_index - 1] == ' ' or
+           random_index == 0):
+        random_index = random.randint(0, len(line_char_list) - 1)
+        
+    char = line_char_list[random_index] 
+    prev_char = line_char_list[random_index - 1]
+    
+    line_char_list[random_index - 1] = char
+    line_char_list[random_index] = prev_char
+    
     num_bugs -= 1
 
     filelist[line_index] = ''.join(line_char_list)

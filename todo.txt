@@ -34,7 +34,6 @@
 	-Add additional comments
 	-Rewrite DocStrings to be more descriptive
 	-Consider writing a detailed guide for how this all works together
--char_switch() is switching characters with white space but it isn't supposed to.
 
 ***BUG FUNCTION IDEAS***
 
