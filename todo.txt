@@ -35,12 +35,10 @@
 	-Rewrite DocStrings to be more descriptive
 	-Consider writing a detailed guide for how this all works together
 -char_switch() is switching characters with white space but it isn't supposed to.
--The ANSWERKEY diff file should have its extension renamed to .txt to make it easier to read.
 
 ***BUG FUNCTION IDEAS***
 
 -Insert charachter at random point in the line
 	-Duplicate the charachter?
--Insert a colon at the end of a line or remove it and vice versae
 -Change every (, ), in a line into [, ], and vice versae. Would be a slight improvement
  over parentheses_switch() which only introduces syntax errors instead of logical errors.

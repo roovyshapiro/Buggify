@@ -125,8 +125,7 @@ def parentheses_switch(filelist, num_bugs):
     '''
     bracks_open = ['(','{','[',':',]
     bracks_closed = [')','}',']',';',':']
-    randomizer = random.randint(0,1)
-    if randomizer:
+    if random.randint(0,1) == 0:
         new_filelist, num_bugs_update = single_char_switch(filelist, num_bugs,random.choice(bracks_open), random.choice(bracks_open))
     else:
         new_filelist, num_bugs_update = single_char_switch(filelist, num_bugs,random.choice(bracks_closed), random.choice(bracks_closed))
@@ -157,17 +156,17 @@ def bugged_docstring(filelist, num_bugs):
     Randomly replaces pre-defined text within triple quotes.
     '''
     doc_list = []
-    for line in range(len(filelist)):
-        if filelist[line].strip().startswith("'''") or filelist[line].strip().startswith('"""'):
-            doc_list.append(line)
+    for line_index in range(len(filelist)):
+        if filelist[line_index].strip().startswith("'''") or filelist[line_index].strip().startswith('"""'):
+            doc_list.append(line_index)
 
     if len(doc_list) == 0 or len(doc_list) % 2 != 0:  
         return filelist, num_bugs
     start_quotes = [x for x in doc_list if doc_list.index(x) % 2 == 0]
     end_quotes = [x for x in doc_list if doc_list.index(x) % 2 == 1]
     random_num = (random.randint(0, len(start_quotes))) - 1
-    for y in range(start_quotes[random_num], (end_quotes[random_num]) +1):
-        filelist[y] = '#BUGGIFIED DOCSTRING'.rjust(24)
+    for docstring_line in range(start_quotes[random_num], (end_quotes[random_num]) +1):
+        filelist[docstring_line] = '#BUGGIFIED DOCSTRING'.rjust(24)
     num_bugs -= 1
     return filelist, num_bugs
 
