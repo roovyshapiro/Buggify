@@ -36,7 +36,7 @@ def single_char_switch(filelist, num_bugs, char1, char2):
         randomizer = random.randint(0,1)   #not too many on same line
         if randomizer == 1:
             if char1 in line_char_list[char_index]:
-                line_char_list[char_index] = line_char_list[index].replace(char1, char2)
+                line_char_list[char_index] = line_char_list[char_index].replace(char1, char2)
                 num_bugs -=1
                 break
             elif char2 in line_char_list[char_index]:
