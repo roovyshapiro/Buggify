@@ -9,10 +9,8 @@ def random_line(filelist, opt_arg = 'line_list'):
     random_line_index = random.randint(0, len(filelist) - 1)
 
     #To avoid errors, continue to choose a random line until one is retrieved that
-    #isn't a comment, 
-    #isn't empty,
-    #isn't full of whitespaces,
-    #isn't the first or last line
+    #isn't a comment, isn't empty, isn't full of whitespaces,
+    #and isn't the first or last line
     while  (filelist[random_line_index].strip().startswith('#') or
             filelist[random_line_index].strip().startswith("'''") or
             filelist[random_line_index].strip().startswith('"""') or
@@ -34,15 +32,15 @@ def single_char_switch(filelist, num_bugs, char1, char2):
     '''
     line_index, line_char_list = random_line(filelist) 
     line_char_list = filelist[line_index].split(' ')
-    for x in range(len(line_char_list)):
+    for char_index in range(len(line_char_list)):
         randomizer = random.randint(0,1)   #not too many on same line
         if randomizer == 1:
-            if char1 in line_char_list[x]:
-                line_char_list[x] = line_char_list[x].replace(char1, char2)
+            if char1 in line_char_list[char_index]:
+                line_char_list[char_index] = line_char_list[index].replace(char1, char2)
                 num_bugs -=1
                 break
-            elif char2 in line_char_list[x]:
-                line_char_list[x] = line_char_list[x].replace(char2, char1)
+            elif char2 in line_char_list[char_index]:
+                line_char_list[char_index] = line_char_list[char_index].replace(char2, char1)
                 num_bugs -=1
                 break
         elif randomizer == 0:

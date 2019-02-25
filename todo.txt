@@ -28,8 +28,6 @@
 		 
 -Diff with more context so the line_switch function diff makes more sense
 	-Tabling this for now as I tried it but it felt more confusing
--Rename local function variables to be more descriptive 
-	-eg. "random_line_index" instead of "random_num", rename "mylist" etc.
 -Documentation
 	-Add additional comments
 	-Rewrite DocStrings to be more descriptive
