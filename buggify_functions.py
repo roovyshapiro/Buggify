@@ -28,7 +28,7 @@ def random_line(filelist, opt_arg = 'line_list'):
 
 def single_char_switch(filelist, num_bugs, char1, char2):
     '''
-    Randomly switch two supplied characters for each other.
+    Randomly switch two supplied characters for each other once in a line.
     '''
     line_index, line_char_list = random_line(filelist) 
     line_char_list = filelist[line_index].split(' ')
@@ -117,9 +117,9 @@ def elif_else_switch(filelist, num_bugs):
     new_filelist, num_bugs_update = single_char_switch(filelist, num_bugs, 'elif', 'else')
     return new_filelist, num_bugs_update
 
-def parentheses_switch(filelist, num_bugs):
+def single_bracket_switch(filelist, num_bugs):
     '''
-    Randomly switch brackets, parentheses_switch and curly braces with each other.
+    Randomly switch one bracket type with another bracket type.
     '''
     bracks_open = ['(','{','[',':',]
     bracks_closed = [')','}',']',';',':']
@@ -129,6 +129,50 @@ def parentheses_switch(filelist, num_bugs):
         new_filelist, num_bugs_update = single_char_switch(filelist, num_bugs,random.choice(bracks_closed), random.choice(bracks_closed))
 
     return new_filelist, num_bugs_update
+
+
+def all_char_switch(filelist, char1, char2, char3 = '', char4 = ''):
+    '''
+    Randomly changes all instances of a character in a line with another one.
+    Optional: supply two additional characters for switching in a line.
+    '''
+    char_list = [char1, char2, char3, char4]
+    line_index, line_char_list = random_line(filelist)  
+
+    #line_char_list must contain at least one character from char_list
+    while not any(char in char_list for char in line_char_list):
+        line_index, line_char_list = random_line(filelist)
+
+    for char_index in range(len(line_char_list)):
+        if line_char_list[char_index] == char1:
+            line_char_list[char_index] = char2
+        elif line_char_list[char_index] == char2:
+            line_char_list[char_index] = char1
+            
+        elif line_char_list[char_index] == char3:
+            line_char_list[char_index] = char4
+        elif line_char_list[char_index] == char4:
+            line_char_list[char_index] = char3
+            
+    return line_char_list, line_index
+    
+
+def all_bracket_switch(filelist, num_bugs):
+    '''
+    Switches all bracket types in a random line with another bracket type.
+    '''
+    randomizer = random.randint(0,2)
+    if randomizer == 0:
+        line_char_list, line_index = all_char_switch(filelist, '(', '[', ')', ']')
+    elif randomizer == 1:
+        line_char_list, line_index = all_char_switch(filelist, '(', '{', ')', '}')
+    elif randomizer == 2:
+        line_char_list, line_index = all_char_switch(filelist, '[', '{', ']', '}')
+        
+    num_bugs -=1
+    filelist[line_index] = ''.join(line_char_list)
+    return filelist, num_bugs
+
 
 def bugged_comment(filelist, num_bugs):
     '''
@@ -343,7 +387,8 @@ function_list = [
                  tabs_spaces,
                  num_change,
                  zero_o_switch,
-                 parentheses_switch,
+                 single_bracket_switch,
+                 all_bracket_switch,
                  elif_else_switch,
                  period_switch,
                  line_switch,

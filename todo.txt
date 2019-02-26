@@ -25,6 +25,10 @@
 		 there are no docstrings in the file
 		-Thus for consistency, if a function CAN apply to a file, 
 		 it should execute once before exiting	
+-bugged_docstring() happens too frequently
+-bugs are not occuring to comments, but are occuring to text within a docstring.
+ need to create a function to detect content within a docstring so that bug functions
+ can avoid it.
 		 
 -Diff with more context so the line_switch function diff makes more sense
 	-Tabling this for now as I tried it but it felt more confusing
@@ -37,5 +41,4 @@
 
 -Insert charachter at random point in the line
 	-Duplicate the charachter?
--Change every (, ), in a line into [, ], and vice versae. Would be a slight improvement
- over parentheses_switch() which only introduces syntax errors instead of logical errors.
+
