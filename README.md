@@ -50,31 +50,39 @@ Here's a basic overview of how the program works:
 	 - Switches a zero to a lower case 'o' and vice versa.
 	 ~~~~
 	 - random_index = random.randint(0, len(line_char_list) - 1)
-     + random_index = rand0m.randint(o, len(line_char_list) - 1)
+         + random_index = rand0m.randint(o, len(line_char_list) - 1)
 	 ~~~~
- - **parentheses_switch()**
-	 - An open parentheses, curly brace, square bracket, colon or semi-colon is exchanged with another open one at random.
-    - A closed parentheses, curly brace, square bracket, colon or semi-colon is exchanged with another closed one at random.
+ - **single_bracket_switch()**
+	- A bracket character is changed with another bracket type character once per line.
 	 ~~~~
 	 - if filelist[line_index][hash_index - 1].isspace() and random.randint(1, 3) == 1:
-     + if filelist{line_index)[hash_index - 1).isspace(] and random.randint{1, 3] == 1;
+         + if filelist{line_index)[hash_index - 1).isspace(] and random.randint{1, 3] == 1;
 	 ~~~~    
-
+ - **all_bracket_switch()**
+ 	-All bracket types found in a line are switched with another bracket type.
+	~~~~
+	- if filelist[line_index][hash_index - 1].isspace() and random.randint(1, 3) == 1:
+	+ if filelist(line_index)(hash_index - 1).isspace[] and random.randint[1, 3] == 1:
+	~~~~
+	~~~~
+	- random_index = random.randint(0, len(line_char_list) - 1)
+	+ random_index = random.randint{0, len{line_char_list} - 1}
+	~~~~
  - **elif_else_switch()**
 	 - Switches "else" to "elif" and vice versa.
 	 ~~~~
-	 if randomizer == 0:
-         line_char_list.insert(0, ' ')
-     - elif randomizer == 1:
-          del line_char_list[0]
-     - else randomizer == 2:
+	  if randomizer == 0:
+              line_char_list.insert(0, ' ')
+         - elif randomizer == 1:
+              del line_char_list[0]
+         - else randomizer == 2:
 	 ~~~~
 	 ~~~~
-	   if randomizer == 0:
-          line_char_list.insert(0, ' ')
-     + else randomizer == 1:
-          del line_char_list[0]
-     + elif randomizer == 2:
+	  if randomizer == 0:
+              line_char_list.insert(0, ' ')
+         + else randomizer == 1:
+              del line_char_list[0]
+         + elif randomizer == 2:
 	 ~~~~
  - **period_switch()**
 	 - Switches a period to a comma and vice versa.
@@ -87,23 +95,23 @@ Here's a basic overview of how the program works:
  - **line_switch()**
 	 - Switches a full line with the line before it.
 	 ~~~~
-	   line_char_list[x] = line_char_list[x].replace(char1, char2)
-     - num_bugs -=1
-     - break
+	  line_char_list[x] = line_char_list[x].replace(char1, char2)
+         - num_bugs -=1
+         - break
 	 ~~~~
 	 ~~~~
-	   line_char_list[x] = line_char_list[x].replace(char1, char2)
-     + break
-     + num_bugs -=1
+	 line_char_list[x] = line_char_list[x].replace(char1, char2)
+         + break
+         + num_bugs -=1
 	 ~~~~
  - **char_switch()**
 	 - Switches a character with the one before it.
 	 ~~~~	    
-     - return new_filelist, num_bugs_update
-     ~~~~
-     ~~~~	    
-     + return new_filelsit, num_bugs_update
-     ~~~~
+         - return new_filelist, num_bugs_update
+         ~~~~
+         ~~~~	    
+         + return new_filelsit, num_bugs_update
+         ~~~~
  - **case_switch()**
 	 - Switches the first character in a word from lower case to upper case and vice versa.
 	 ~~~~
@@ -133,49 +141,53 @@ Here's a basic overview of how the program works:
 		 - Removes the 'if' from the beginning of a line and the ':' from the end of a line.
 		 ~~~~
 		-  if line_char_list[char_index] == 0:
-                line_char_list[char_index] += 1
+                	line_char_list[char_index] += 1
 		 ~~~~
 		 ~~~~
-		 -  line_char_list[char_index] == 0
-                line_char_list[char_index] += 1
+		 +  line_char_list[char_index] == 0
+                    line_char_list[char_index] += 1
 		 ~~~~
     - Option #2: 
-	    - Adds an 'if' to the beginning of the line and a ':' to the end of the line. Additionally, the following line is indented with four additional spaces.
+	    - Adds an 'if' to the beginning of the line and a ':' to the end of the line. 
+	      Additionally, the following line is indented with four additional spaces.
 	    ~~~~
 	    - first_line = filelist[random_line_index]
-        - second_line = filelist[random_line_index - 1]
+            - second_line = filelist[random_line_index - 1]
 	    ~~~~
 	    ~~~~
-        + if first_line = filelist[random_line_index]:
-        +     second_line = filelist[random_line_index - 1]
+            + if first_line = filelist[random_line_index]:
+            +     second_line = filelist[random_line_index - 1]
 	    ~~~~
  - **bugged_comment()** 
-	 - A comment beginning with a "#" is replaced with *#THIS COMMENT HAS BEEN BUGGIFIED*. While not a syntax or logical error *per se*, it does make the code more difficult to understand. 
+	 - A comment beginning with a "#" is replaced with *#THIS COMMENT HAS BEEN BUGGIFIED*. 
+	   While not a syntax or logical error *per se*, it does make the code more difficult to understand. 
 	 ~~~~ 
-       if full_file_path == '':
-     - #Removes small Tk window and prompts user to choose file.
-       Tk().withdraw()
-    ~~~~
+           if full_file_path == '':
+         - #Removes small Tk window and prompts user to choose file.
+           Tk().withdraw()
+    	 ~~~~
 	 ~~~~
 	   if full_file_path == '':
-     + #THIS COMMENT HAS BEEN BUGGIFIED
-       Tk().withdraw()
+         + #THIS COMMENT HAS BEEN BUGGIFIED
+           Tk().withdraw()
 	 ~~~~
 	  
  - **bugged_docstring()**
-	 - A full docstring is replaced with *#BUGGIFIED DOCSTRING*. This is similar to bugged_comment() in that its not a syntax or logical error *per se*, but it does make functions more difficult to understand.
+	 - A full docstring is replaced with *#BUGGIFIED DOCSTRING*. 
+	   This is similar to bugged_comment() in that its not a syntax or logical error *per se*, 
+	   but it does make functions more difficult to understand.
 	 ~~~~
-	   def tabs_spaces(filelist, num_bugs):
-     -    '''
-     -    Randomly adds or subtracts a space in a tabbed line,
-     -    or adds a tab or double tab where it doesn't belong.
-     -    '''
+	  def tabs_spaces(filelist, num_bugs):
+         -    '''
+         -    Randomly adds or subtracts a space in a tabbed line,
+         -    or adds a tab or double tab where it doesn't belong.
+         -    '''
 	 ~~~~
 	 ~~~~
-	   def tabs_spaces(filelist, num_bugs):
-     +    #BUGGIFIED DOCSTRING
-     +    #BUGGIFIED DOCSTRING
-     +    #BUGGIFIED DOCSTRING
-     +    #BUGGIFIED DOCSTRING
+	  def tabs_spaces(filelist, num_bugs):
+         +    #BUGGIFIED DOCSTRING
+         +    #BUGGIFIED DOCSTRING
+         +    #BUGGIFIED DOCSTRING
+         +    #BUGGIFIED DOCSTRING
 	 ~~~~
 
