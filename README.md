@@ -59,7 +59,7 @@ Here's a basic overview of how the program works:
          + if filelist{line_index)[hash_index - 1).isspace(] and random.randint{1, 3] == 1;
 	 ~~~~    
  - **all_bracket_switch()**
- 	-All bracket types found in a line are switched with another bracket type.
+ 	- All bracket types found in a line are switched with another bracket type.
 	~~~~
 	- if filelist[line_index][hash_index - 1].isspace() and random.randint(1, 3) == 1:
 	+ if filelist(line_index)(hash_index - 1).isspace[] and random.randint[1, 3] == 1:
@@ -90,7 +90,7 @@ Here's a basic overview of how the program works:
 	 - line_char_list.insert(char_index + 1, '=')
 	 ~~~~ 
 	 ~~~~
-	 - line_char_list,insert(char_index + 1. '=')
+	 + line_char_list,insert(char_index + 1. '=')
 	 ~~~~ 
  - **line_switch()**
 	 - Switches a full line with the line before it.
@@ -105,13 +105,14 @@ Here's a basic overview of how the program works:
          + num_bugs -=1
 	 ~~~~
  - **char_switch()**
-	 - Switches a character with the one before it.
-	 ~~~~	    
-         - return new_filelist, num_bugs_update
-         ~~~~
-         ~~~~	    
-         + return new_filelsit, num_bugs_update
-         ~~~~
+ 	- Switches a character with the one before it.
+	~~~~	    
+    - return new_filelist, num_bugs_update
+	~~~~	
+	~~~~	    
+    + return new_filelsit, num_bugs_update
+    ~~~~
+	
  - **case_switch()**
 	 - Switches the first character in a word from lower case to upper case and vice versa.
 	 ~~~~
@@ -160,18 +161,18 @@ Here's a basic overview of how the program works:
 	    ~~~~
  - **bugged_comment()** 
 	 - A comment beginning with a "#" is replaced with *#THIS COMMENT HAS BEEN BUGGIFIED*. 
-	   While not a syntax or logical error *per se*, it does make the code more difficult to understand. 
-	 ~~~~ 
-           if full_file_path == '':
-         - #Removes small Tk window and prompts user to choose file.
-           Tk().withdraw()
-    	 ~~~~
-	 ~~~~
-	   if full_file_path == '':
-         + #THIS COMMENT HAS BEEN BUGGIFIED
-           Tk().withdraw()
-	 ~~~~
-	  
+	 While not a syntax or logical error *per se*, it does make the code more difficult to understand.  
+	    ~~~~ 
+          if full_file_path == '':
+        - #Removes small Tk window and prompts user to choose file.
+          Tk().withdraw()
+	    ~~~~
+	    ~~~~
+	      if full_file_path == '':
+        + #THIS COMMENT HAS BEEN BUGGIFIED
+          Tk().withdraw()
+	    ~~~~
+	 
  - **bugged_docstring()**
 	 - A full docstring is replaced with *#BUGGIFIED DOCSTRING*. 
 	   This is similar to bugged_comment() in that its not a syntax or logical error *per se*, 
