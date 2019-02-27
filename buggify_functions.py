@@ -117,6 +117,13 @@ def elif_else_switch(filelist, num_bugs):
     new_filelist, num_bugs_update = single_char_switch(filelist, num_bugs, 'elif', 'else')
     return new_filelist, num_bugs_update
 
+def add_subtract_switch(filelist, num_bugs):
+    '''
+    Randomly switch '-' to '+' and vice versa.
+    '''
+    new_filelist, num_bugs_update = single_char_switch(filelist, num_bugs, '+', '-')
+    return new_filelist, num_bugs_update
+
 def single_bracket_switch(filelist, num_bugs):
     '''
     Randomly switch one bracket type with another bracket type.
@@ -391,6 +398,7 @@ function_list = [
                  all_bracket_switch,
                  elif_else_switch,
                  period_switch,
+                 add_subtract_switch
                  line_switch,
                  char_switch,
                  case_switch,

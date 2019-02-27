@@ -92,6 +92,14 @@ Here's a basic overview of how the program works:
 	 ~~~~
 	 + line_char_list,insert(char_index + 1. '=')
 	 ~~~~ 
+ - **add_subtract_switch()**
+	 - Switches a '+' to a '-' and vice versa.
+	 ~~~~
+	 - line_char_list[char_index - 1] not in ['=','!','+','-'] and
+	 ~~~~ 
+	 ~~~~
+	 + line_char_list[char_index + 1] not in ['=','!','-','+'] and
+	 ~~~~ 
  - **line_switch()**
 	 - Switches a full line with the line before it.
 	 ~~~~
