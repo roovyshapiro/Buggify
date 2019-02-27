@@ -30,22 +30,20 @@ def single_char_switch(filelist, num_bugs, char1, char2):
     '''
     Randomly switch two supplied characters for each other once in a line.
     '''
-    line_index, line_char_list = random_line(filelist) 
-    line_char_list = filelist[line_index].split(' ')
-    for char_index in range(len(line_char_list)):
-        randomizer = random.randint(0,1)   #not too many on same line
-        if randomizer == 1:
-            if char1 in line_char_list[char_index]:
-                line_char_list[char_index] = line_char_list[char_index].replace(char1, char2)
+    char_list = [char1, char2]
+    line_index, line_char_list = random_line(filelist)
+    #line_char_list must contain at least one character from char_list
+    while not any(char in char_list for char in line_char_list):
+        line_index, line_char_list = random_line(filelist)        
+    for char_index, char in enumerate(line_char_list):
+        if random.randint(0,2) == 1:     #not too many on same line
+            if char == char1:
+                line_char_list[char_index] = char2
                 num_bugs -=1
-                break
-            elif char2 in line_char_list[char_index]:
-                line_char_list[char_index] = line_char_list[char_index].replace(char2, char1)
-                num_bugs -=1
-                break
-        elif randomizer == 0:
-            continue        
-    filelist[line_index] = ' '.join(line_char_list)
+            elif char == char2:
+                line_char_list[char_index] = char1
+                num_bugs -=1   
+    filelist[line_index] = ''.join(line_char_list)
     return filelist, num_bugs
 
 def tabs_spaces(filelist, num_bugs):
