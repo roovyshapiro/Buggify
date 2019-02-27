@@ -198,21 +198,57 @@ def bugged_comment(filelist, num_bugs):
             break
     return filelist, num_bugs
 
-def bugged_docstring(filelist, num_bugs):
+def docstring_detect(filelist, return_start_end = 'no'):
     '''
-    Randomly replaces pre-defined text within triple quotes.
+    This function detects all the lines of a docstring.
+    This is useful because we don't want most of the bugs to apply to docstrings.
+    To detect a full docstring:
+    1. Append all line indexes which start with triple quotes to a list.
+    2. If the len(list) is even, we know that we have the beginnings and endings of the docstrings.
+       If it's not even, the docstrings are either formatted incorrectly, or this function won't work.
+    3. Append the 0, 2, 4 etc. list indexes to [start_quotes], which will be our docstring starts.
+    4. Append the 1, 3, 5 etc. list indexes to [end_quotes], which will be our docstring ends.
+    5. A range is then calculated from the 0 index of start_quotes to the 0 index of [end_quotes].
+    Example:
+    doc_list = [1, 3, 8, 10] #These lines begin with triple quotes.
+    start_quotes = [1,8]
+    end_quotes = [3,10]
+    Lines 1, 2, 3 are a docstring. Lines 8, 9, 10 are another docstring.
+    full_doc_list of [1,2,3,8,9,10] is returned.
+
+    return_start_end == 'no'
+    This is for the bugged_docstring() function which should only apply to a single docstring.
+    Either lines 1 through 3, or lines 8 through 10.
     '''
     doc_list = []
+    start_quotes = []
+    end_quotes = []
+    full_doc_list = []
+    
     for line_index in range(len(filelist)):
         if filelist[line_index].strip().startswith("'''") or filelist[line_index].strip().startswith('"""'):
             doc_list.append(line_index)
+    if len(doc_list) == 0 or len(doc_list) % 2 != 0:
+        if return_start_end == 'yes':
+            return start_quotes, end_quotes
+        return full_doc_list
+    start_quotes = [num for num in doc_list if doc_list.index(num) % 2 == 0]
+    end_quotes = [num for num in doc_list if doc_list.index(num) % 2 == 1]    
+    for x in range(len(start_quotes)):
+        for y in range(start_quotes[x], end_quotes[x] + 1):
+            full_doc_list.append(y)
 
-    if len(doc_list) == 0 or len(doc_list) % 2 != 0:  
-        return filelist, num_bugs
-    start_quotes = [x for x in doc_list if doc_list.index(x) % 2 == 0]
-    end_quotes = [x for x in doc_list if doc_list.index(x) % 2 == 1]
-    random_num = (random.randint(0, len(start_quotes))) - 1
-    for docstring_line in range(start_quotes[random_num], (end_quotes[random_num]) +1):
+    if return_start_end == 'yes':
+        return start_quotes, end_quotes
+    return full_doc_list   
+
+def bugged_docstring(filelist, num_bugs):
+    '''
+    Replaces the lines of a random docstring with #BUGGIFIED DOCSTRING
+    '''
+    start_quotes, end_quotes = docstring_detect(filelist, return_start_end = 'yes')    
+    random_index = (random.randint(0, len(start_quotes))) - 1
+    for docstring_line in range(start_quotes[random_index], (end_quotes[random_index]) + 1):
         filelist[docstring_line] = '#BUGGIFIED DOCSTRING'.rjust(24)
     num_bugs -= 1
     return filelist, num_bugs
