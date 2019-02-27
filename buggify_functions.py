@@ -1,19 +1,25 @@
 import random
 
+#Global variable which gets populated with the lines of all the files' docstrings
+#by the docstring_detect function. Once it is populated, it won't be changed again.
+#Functions use this to ensure that the bugs they're introducing don't apply to docstrings.
+docstring_line_indexes = []
+
+
 def random_line(filelist, opt_arg = 'line_list'):
     '''
     Gets a random line from the file as a string
-    (as long as it's not empty or a comment)
+    (as long as it's not a comment, part of a docstring,
+    empty, the first line or the last line)
     and returns it as a list of characters along with the chosen index.
     '''
     random_line_index = random.randint(0, len(filelist) - 1)
+    global docstring_line_indexes
+    if docstring_line_indexes == []:
+        docstring_line_indexes = docstring_detect(filelist)       
 
-    #To avoid errors, continue to choose a random line until one is retrieved that
-    #isn't a comment, isn't empty, isn't full of whitespaces,
-    #and isn't the first or last line
     while (filelist[random_line_index].strip().startswith('#') or
-        filelist[random_line_index].strip().startswith("'''") or
-        filelist[random_line_index].strip().startswith('"""') or
+        random_line_index in docstring_line_indexes or
         len(set(filelist[random_line_index])) <= 1 or
         random_line_index == len(filelist) or
         random_line_index == 0):
@@ -237,7 +243,9 @@ def docstring_detect(filelist, return_start_end = 'no'):
     for x in range(len(start_quotes)):
         for y in range(start_quotes[x], end_quotes[x] + 1):
             full_doc_list.append(y)
-
+    global docstring_line_indexes
+    if docstring_line_indexes == []:
+        docstring_line_indexes = full_doc_list
     if return_start_end == 'yes':
         return start_quotes, end_quotes
     return full_doc_list   
@@ -421,6 +429,7 @@ def if_switch(filelist, num_bugs):
     return filelist, num_bugs
 
 
+
 #List of all the bugs which buggify randomly chooses from to implement.    
 function_list = [
                  bugged_comment,
@@ -430,7 +439,7 @@ function_list = [
                  zero_o_switch,
                  single_bracket_switch,
                  all_bracket_switch,
-                 elif_else_switch,
+                 #elif_else_switch, The changes made to single_char_switch() broke this
                  period_switch,
                  add_subtract_switch,
                  line_switch,

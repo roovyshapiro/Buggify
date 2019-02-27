@@ -25,11 +25,8 @@
 		 there are no docstrings in the file
 		-Thus for consistency, if a function CAN apply to a file, 
 		 it should execute once before exiting	
--bugged_docstring() happens too frequently
--bugs are not occuring to comments, but are occuring to text within a docstring.
- need to create a function to detect content within a docstring so that bug functions
- can avoid it.
-		 
+-elif_else_switch() was broken by the changes made to single_char_switch()
+ need to find another way to swap multi character strings.		 
 -Diff with more context so the line_switch function diff makes more sense
 	-Tabling this for now as I tried it but it felt more confusing
 -Documentation
