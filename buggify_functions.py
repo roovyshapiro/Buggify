@@ -11,12 +11,12 @@ def random_line(filelist, opt_arg = 'line_list'):
     #To avoid errors, continue to choose a random line until one is retrieved that
     #isn't a comment, isn't empty, isn't full of whitespaces,
     #and isn't the first or last line
-    while  (filelist[random_line_index].strip().startswith('#') or
-            filelist[random_line_index].strip().startswith("'''") or
-            filelist[random_line_index].strip().startswith('"""') or
-            len(set(filelist[random_line_index])) <= 1 or
-            random_line_index == len(filelist) or
-            random_line_index == 0):
+    while (filelist[random_line_index].strip().startswith('#') or
+        filelist[random_line_index].strip().startswith("'''") or
+        filelist[random_line_index].strip().startswith('"""') or
+        len(set(filelist[random_line_index])) <= 1 or
+        random_line_index == len(filelist) or
+        random_line_index == 0):
 
             random_line_index = random.randint(0, len(filelist) - 1)
     
@@ -396,7 +396,7 @@ function_list = [
                  all_bracket_switch,
                  elif_else_switch,
                  period_switch,
-                 add_subtract_switch
+                 add_subtract_switch,
                  line_switch,
                  char_switch,
                  case_switch,

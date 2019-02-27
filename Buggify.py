@@ -88,7 +88,6 @@ def buggify(num_bugs = 20, full_file_path = ''):
     while num_bugs > 1:
         random_num = random.randint(0,len(bf.function_list) - 1)
         filelist, num_bugs = bf.function_list[random_num](filelist, num_bugs)
-        
     filechanges = '\n'.join(filelist)
     with open(copy_of_file, 'w') as f:
         f.write(filechanges)
