@@ -32,7 +32,7 @@ def random_line(filelist, opt_arg = 'line_list'):
     return random_line_index
 
 
-def multi_char_switch(filelist, num_bugs, chars1, chars2):
+def multi_char_switch(filelist, num_bugs, chars1, chars2, func_name = ''):
     '''
     Switches two supplied characters or words for each other once in a line.
     They do not have to be the same length.
@@ -43,13 +43,15 @@ def multi_char_switch(filelist, num_bugs, chars1, chars2):
     #Break the loop if it tries more than 15 times to prevent
     #a situation where the word or character isn't present in the file.
     #num_bugs is decremented as well to prevent an infinte loop.
-    line_search_tries = 15
-    while chars1 not in filelist[line_index] or chars2 not in filelist[line_index]:
+    line_search_tries = 100
+    while chars1 not in filelist[line_index] and chars2 not in filelist[line_index]:
+        line_index, line_char_list = random_line(filelist)
         line_search_tries -= 1
         if line_search_tries == 0:
-            num_bugs -= 1
+            if func_name != '':
+                global bug_function_list
+                bug_function_list.remove(func_name)
             return filelist, num_bugs
-        line_index, line_char_list = random_line(filelist)
         
     for char_index in range(len(line_char_list)):
         if random.randint(0,2) == 1:     #not too many on same line
@@ -128,7 +130,7 @@ def elif_else_switch(filelist, num_bugs):
     '''
     Randomly switch 'elif' to 'else' and vice versae.
     '''
-    new_filelist, num_bugs_update = multi_char_switch(filelist, num_bugs, 'elif', 'else')
+    new_filelist, num_bugs_update = multi_char_switch(filelist, num_bugs, 'elif', 'else', elif_else_switch)
     return new_filelist, num_bugs_update
 
 def add_subtract_switch(filelist, num_bugs):
@@ -441,7 +443,7 @@ def if_switch(filelist, num_bugs):
 
 
 #List of all the bugs which buggify randomly chooses from to implement.    
-function_list = [
+bug_function_list = [
                  bugged_comment,
                  bugged_docstring,
                  tabs_spaces,

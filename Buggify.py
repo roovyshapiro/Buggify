@@ -86,8 +86,12 @@ def buggify(num_bugs = 20, full_file_path = ''):
     #Answer key becomes a .txt file for easier reviewing
     answer_key = alter_file_name(original_file, 'BUG-ANSWERKEY', 'text')
     while num_bugs > 1:
-        random_num = random.randint(0,len(bf.function_list) - 1)
-        filelist, num_bugs = bf.function_list[random_num](filelist, num_bugs)
+        try:
+            random_num = random.randint(0,len(bf.bug_function_list) - 1)
+            filelist, num_bugs = bf.bug_function_list[random_num](filelist, num_bugs)
+        except ValueError:
+            print('buggify() errors!')
+            break
     filechanges = '\n'.join(filelist)
     with open(copy_of_file, 'w') as f:
         f.write(filechanges)
