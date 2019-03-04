@@ -11,7 +11,6 @@
 
 
 ***ISSUES***
-
 -Must test with various file types to anticipate encoding errors.
 -Must test with various file types to anticipate errors with bugs not 
  able to be applied. For example, what if a text file doesn't contain triple quotes -
@@ -25,8 +24,7 @@
 		 there are no docstrings in the file
 		-Thus for consistency, if a function CAN apply to a file, 
 		 it should execute once before exiting	
--elif_else_switch() was broken by the changes made to single_char_switch()
- need to find another way to swap multi character strings.		 
+-Some bugs are found when buggify is run 500 times or more. Indexes are out of range.		 
 -Diff with more context so the line_switch function diff makes more sense
 	-Tabling this for now as I tried it but it felt more confusing
 -Documentation

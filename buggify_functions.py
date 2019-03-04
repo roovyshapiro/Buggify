@@ -32,22 +32,32 @@ def random_line(filelist, opt_arg = 'line_list'):
     return random_line_index
 
 
-def single_char_switch(filelist, num_bugs, char1, char2):
+def multi_char_switch(filelist, num_bugs, chars1, chars2):
     '''
-    Randomly switch two supplied characters for each other once in a line.
+    Switches two supplied characters or words for each other once in a line.
+    They do not have to be the same length.
     '''
-    char_list = [char1, char2]
     line_index, line_char_list = random_line(filelist)
+    
     #line_char_list must contain at least one character from char_list
-    while not any(char in char_list for char in line_char_list):
-        line_index, line_char_list = random_line(filelist)        
-    for char_index, char in enumerate(line_char_list):
+    #Break the loop if it tries more than 15 times to prevent
+    #a situation where the word or character isn't present in the file.
+    #num_bugs is decremented as well to prevent an infinte loop.
+    line_search_tries = 15
+    while chars1 not in filelist[line_index] or chars2 not in filelist[line_index]:
+        line_search_tries -= 1
+        if line_search_tries == 0:
+            num_bugs -= 1
+            return filelist, num_bugs
+        line_index, line_char_list = random_line(filelist)
+        
+    for char_index in range(len(line_char_list)):
         if random.randint(0,2) == 1:     #not too many on same line
-            if char == char1:
-                line_char_list[char_index] = char2
+            if line_char_list[char_index : char_index + len(chars1)] == list(chars1):
+                line_char_list[char_index : char_index + len(chars1)] = chars2
                 num_bugs -=1
-            elif char == char2:
-                line_char_list[char_index] = char1
+            elif line_char_list[char_index : char_index + len(chars2)] == list(chars2):
+                line_char_list[char_index : char_index + len(chars2)] = chars1
                 num_bugs -=1   
     filelist[line_index] = ''.join(line_char_list)
     return filelist, num_bugs
@@ -103,7 +113,7 @@ def period_switch(filelist, num_bugs):
     '''
     Randomly switch period to a comma and vice versae.
     '''
-    new_filelist, num_bugs_update = single_char_switch(filelist, num_bugs, ',', '.')
+    new_filelist, num_bugs_update = multi_char_switch(filelist, num_bugs, ',', '.')
     return new_filelist, num_bugs_update
     
 
@@ -111,21 +121,21 @@ def zero_o_switch(filelist, num_bugs):
     '''
     Randomly switch 'o' to a Zero and vice versae.
     '''
-    new_filelist, num_bugs_update = single_char_switch(filelist, num_bugs, 'o', '0')
+    new_filelist, num_bugs_update = multi_char_switch(filelist, num_bugs, 'o', '0')
     return new_filelist, num_bugs_update
 
 def elif_else_switch(filelist, num_bugs):
     '''
     Randomly switch 'elif' to 'else' and vice versae.
     '''
-    new_filelist, num_bugs_update = single_char_switch(filelist, num_bugs, 'elif', 'else')
+    new_filelist, num_bugs_update = multi_char_switch(filelist, num_bugs, 'elif', 'else')
     return new_filelist, num_bugs_update
 
 def add_subtract_switch(filelist, num_bugs):
     '''
     Randomly switch '-' to '+' and vice versa.
     '''
-    new_filelist, num_bugs_update = single_char_switch(filelist, num_bugs, '+', '-')
+    new_filelist, num_bugs_update = multi_char_switch(filelist, num_bugs, '+', '-')
     return new_filelist, num_bugs_update
 
 def single_bracket_switch(filelist, num_bugs):
@@ -135,9 +145,9 @@ def single_bracket_switch(filelist, num_bugs):
     bracks_open = ['(','{','[',':',]
     bracks_closed = [')','}',']',';',':']
     if random.randint(0,1) == 0:
-        new_filelist, num_bugs_update = single_char_switch(filelist, num_bugs,random.choice(bracks_open), random.choice(bracks_open))
+        new_filelist, num_bugs_update = multi_char_switch(filelist, num_bugs,random.choice(bracks_open), random.choice(bracks_open))
     else:
-        new_filelist, num_bugs_update = single_char_switch(filelist, num_bugs,random.choice(bracks_closed), random.choice(bracks_closed))
+        new_filelist, num_bugs_update = multi_char_switch(filelist, num_bugs,random.choice(bracks_closed), random.choice(bracks_closed))
 
     return new_filelist, num_bugs_update
 
@@ -439,7 +449,7 @@ function_list = [
                  zero_o_switch,
                  single_bracket_switch,
                  all_bracket_switch,
-                 #elif_else_switch, The changes made to single_char_switch() broke this
+                 elif_else_switch, 
                  period_switch,
                  add_subtract_switch,
                  line_switch,
