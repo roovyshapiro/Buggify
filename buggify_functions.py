@@ -16,7 +16,7 @@ def random_line(filelist, opt_arg = 'line_list'):
     random_line_index = random.randint(0, len(filelist) - 1)
     global docstring_line_indexes
     if docstring_line_indexes == []:
-        docstring_line_indexes = docstring_detect(filelist)       
+        docstring_line_indexes = docstring_detect(filelist)
 
     while (filelist[random_line_index].strip().startswith('#') or
         random_line_index in docstring_line_indexes or
@@ -246,9 +246,12 @@ def docstring_detect(filelist, return_start_end = 'no'):
     for line_index in range(len(filelist)):
         if filelist[line_index].strip().startswith("'''") or filelist[line_index].strip().startswith('"""'):
             doc_list.append(line_index)
+        else:
+            continue
     if len(doc_list) == 0 or len(doc_list) % 2 != 0:
         if return_start_end == 'yes':
             return start_quotes, end_quotes
+        full_doc_list.append(0)
         return full_doc_list
     start_quotes = [num for num in doc_list if doc_list.index(num) % 2 == 0]
     end_quotes = [num for num in doc_list if doc_list.index(num) % 2 == 1]    
@@ -266,11 +269,12 @@ def bugged_docstring(filelist, num_bugs):
     '''
     Replaces the lines of a random docstring with #BUGGIFIED DOCSTRING
     '''
-    start_quotes, end_quotes = docstring_detect(filelist, return_start_end = 'yes')    
-    random_index = (random.randint(0, len(start_quotes))) - 1
-    for docstring_line in range(start_quotes[random_index], (end_quotes[random_index]) + 1):
-        filelist[docstring_line] = '#BUGGIFIED DOCSTRING'.rjust(24)
-    num_bugs -= 1
+    start_quotes, end_quotes = docstring_detect(filelist, return_start_end = 'yes')
+    if start_quotes != [] or end_quotes != []:
+        random_index = (random.randint(0, len(start_quotes))) - 1
+        for docstring_line in range(start_quotes[random_index], (end_quotes[random_index]) + 1):
+            filelist[docstring_line] = '#BUGGIFIED DOCSTRING'.rjust(24)
+        num_bugs -= 1
     return filelist, num_bugs
 
 def line_switch(filelist, num_bugs):
