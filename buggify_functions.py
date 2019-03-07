@@ -355,10 +355,11 @@ def equal_switch(filelist, num_bugs):
     Switch '=' to '==' and vice versae
     '''
     line_index, line_char_list = random_line(filelist)
+    while '=' not in line_char_list:
+        line_index, line_char_list = random_line(filelist)
+        
+    randomizer = random.randint(0,1)
     for char_index in range(len(line_char_list)):
-        if '=' not in line_char_list:
-            break
-        randomizer = random.randint(0,1)
         if (line_char_list[char_index] == '=' and
             line_char_list[char_index + 1] == '=' and
             randomizer == 0):           
