@@ -20,7 +20,7 @@ def random_line(filelist, opt_arg = 'line_list'):
 
     while (filelist[random_line_index].strip().startswith('#') or
         random_line_index in docstring_line_indexes or
-        len(set(filelist[random_line_index])) <= 1 or
+        len(set(filelist[random_line_index])) <= 2 or
         random_line_index == len(filelist) or
         random_line_index == 0):
 
