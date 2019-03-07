@@ -10,7 +10,7 @@ def random_line(filelist, opt_arg = 'line_list'):
     '''
     Gets a random line from the file as a string
     (as long as it's not a comment, part of a docstring,
-    empty, the first line or the last line)
+    empty, the first line or the last line, or the second to last line)
     and returns it as a list of characters along with the chosen index.
     '''
     random_line_index = random.randint(0, len(filelist) - 1)
@@ -21,7 +21,7 @@ def random_line(filelist, opt_arg = 'line_list'):
     while (filelist[random_line_index].strip().startswith('#') or
         random_line_index in docstring_line_indexes or
         len(set(filelist[random_line_index])) <= 2 or
-        random_line_index == len(filelist) or
+        random_line_index >= (len(filelist) - 1) or
         random_line_index == 0):
 
             random_line_index = random.randint(0, len(filelist) - 1)
@@ -164,7 +164,7 @@ def all_char_switch(filelist, num_bugs, char1, char2, char3 = '', char4 = '', fu
     #a situation where the characters aren't present in the file.
     #If a line can't be found, then the function is removed from the main
     #bug_function_list to ensure it isn't run again.
-    line_search_tries = 50
+    line_search_tries = 100
     while not any(char in char_list for char in line_char_list):
         line_index, line_char_list = random_line(filelist)
         line_search_tries -= 1
@@ -355,8 +355,16 @@ def equal_switch(filelist, num_bugs):
     Switch '=' to '==' and vice versae
     '''
     line_index, line_char_list = random_line(filelist)
+    line_search_tries = 100
+    #If a line containing an '=' can't be found after 100 tries,
+    #remove this function from the list so it can't be run again.
     while '=' not in line_char_list:
         line_index, line_char_list = random_line(filelist)
+        line_search_tries -= 1
+        if line_search_tries == 0:
+            global bug_function_list
+            bug_function_list.remove(equal_switch)
+            return filelist, num_bugs
         
     randomizer = random.randint(0,1)
     for char_index in range(len(line_char_list)):
