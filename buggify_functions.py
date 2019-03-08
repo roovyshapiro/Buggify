@@ -495,7 +495,7 @@ def missing_blanks(filelist, num_bugs):
     spaceless_char_list = [index for index, value in enumerate(line_char_list) if value != ' ']
     for char in range(len(line_char_list) // 3):
         line_char_list[random.choice(spaceless_char_list)] = '_'
-    filelist[line_index] = ''.join(line_char_list)
+    filelist[line_index] = ''.join(line_char_list) + " #Fill in the missing blanks!"
     num_bugs -=1
     return filelist, num_bugs
     
@@ -520,7 +520,7 @@ def scrambled_line(filelist, num_bugs):
             break
     line_list = filelist[random_line_index].split()
     random.shuffle(line_list)
-    filelist[random_line_index] = (num_spaces * ' ') + ' '.join(line_list)
+    filelist[random_line_index] = (num_spaces * ' ') + ' '.join(line_list) + " #Scrambled line!"
     num_bugs -=1
     return filelist, num_bugs
 
