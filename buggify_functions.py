@@ -311,15 +311,21 @@ def char_switch(filelist, num_bugs):
     Switch a randomly chosen character with the one before it,
     provided the character chosen isn't the first index
     and its previous character is not a white space.
+    If a line is found with no consecutive characters,
+    the while loop will be stuck trying to find a character
+    whose previous character isn't a whitespace. After trying 50 times,
+    it will simply switch the character with a white space and move on.
     '''
     line_index, line_char_list = random_line(filelist)
     random_index = random.randint(0, len(line_char_list) - 1)
-
+    tries = 0
     while (line_char_list[random_index] == ' ' or
            line_char_list[random_index - 1] == ' ' or
            random_index == 0):
         random_index = random.randint(0, len(line_char_list) - 1)
-        
+        tries += 1
+        if tries == 50:
+            break        
     char = line_char_list[random_index] 
     prev_char = line_char_list[random_index - 1]
     
@@ -367,7 +373,7 @@ def equal_switch(filelist, num_bugs):
             return filelist, num_bugs
         
     randomizer = random.randint(0,1)
-    for char_index in range(len(line_char_list)):
+    for char_index in range(len(line_char_list) - 1):
         if (line_char_list[char_index] == '=' and
             line_char_list[char_index + 1] == '=' and
             randomizer == 0):           
@@ -397,7 +403,7 @@ def camel_snake_case(filelist, num_bugs):
     #and the underscore is removed.
     #All the changes made in this line are counted as one num_bug.
     if '_' in line_char_list:
-        for char_index in range(len(line_char_list)):
+        for char_index in range(len(line_char_list) - 1):
             if line_char_list[char_index] == '_':
                 line_char_list[char_index + 1] = line_char_list[char_index + 1].upper()
                 line_char_list[char_index] = ''
