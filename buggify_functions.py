@@ -476,8 +476,22 @@ def if_switch(filelist, num_bugs):
 def missing_blanks(filelist, num_bugs):
     '''
     Replaces 1/3 of the non-whitespace characters in a line with underscores.
+    
+    Attempts to find a line with less than 5 underscores.
+    If no such line is found after 20 tries, this function is removed from the list.
+    Otherwise, the whole file becomes full of underscores
+    when running this a large amount of times.
     '''
     line_index, line_char_list = random_line(filelist)
+    line_search_tries = 20
+    while line_char_list.count('_') > 5:
+        line_index, line_char_list = random_line(filelist)
+        line_search_tries -= 1
+        if line_search_tries == 0:
+            global bug_function_list
+            bug_function_list.remove(missing_blanks)
+            return filelist, num_bugs
+        
     spaceless_char_list = [index for index, value in enumerate(line_char_list) if value != ' ']
     for char in range(len(line_char_list) // 3):
         line_char_list[random.choice(spaceless_char_list)] = '_'
