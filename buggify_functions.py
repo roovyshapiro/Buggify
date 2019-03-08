@@ -1,10 +1,23 @@
+##########  The primary purpose of this file is
+##########  the global list variable, bug_function_list.
+##########  buggify() in Buggify.py chooses functions at random 
+##########  from that list to affect the buggified file.
+##########
+##########  This file can be split up into three sections.
+##########     1. Helper Functions - Functions that are used by other functions
+##########     2. Bug Functions - The functions that are present in  
+##########        bug_function_list which actually apply the bugs
+##########     3. Global Variables
+
+
+##########
+##########  Section 1. Helper Functions 
+##########
+##########  These functions are used by the other functions in global bug_function_list
+##########
+
+
 import random
-
-#Global variable which gets populated with the lines of all the files' docstrings
-#by the docstring_detect function. Once it is populated, it won't be changed again.
-#Functions use this to ensure that the bugs they're introducing don't apply to docstrings.
-docstring_line_indexes = []
-
 
 def random_line(filelist, opt_arg = 'line_list'):
     '''
@@ -64,94 +77,6 @@ def multi_char_switch(filelist, num_bugs, chars1, chars2, func_name = ''):
     filelist[line_index] = ''.join(line_char_list)
     return filelist, num_bugs
 
-def tabs_spaces(filelist, num_bugs):
-    '''
-    Randomly adds or subtracts a space in a tabbed line,
-    or adds a tab or double tab where it doesn't belong.
-    '''
-    line_index, line_char_list = random_line(filelist)
-    randomizer = random.randint(0,2)
-    if line_char_list[:4] == [' ', ' ', ' ', ' ']:
-        if randomizer == 0:
-            line_char_list.insert(0, ' ')
-        elif randomizer == 1:
-            del line_char_list[0]
-        elif randomizer == 2:
-            for x in range(4):
-                line_char_list.insert(0, ' ')  
-    else:
-        for x in range(4):
-            line_char_list.insert(0, ' ')
-
-    num_bugs -=1                      
-    filelist[line_index] = ''.join(line_char_list)
-    return filelist, num_bugs
-
-def num_change(filelist, num_bugs):
-    '''
-    Randomly adds or subtracts an int by 1.
-    '''
-    line_index, line_char_list = random_line(filelist) 
-    for char_index in range(len(line_char_list)):
-        randomizer = random.randint(0,2)
-        if line_char_list[char_index].isdigit() and randomizer != 2:
-            line_char_list[char_index] = int(line_char_list[char_index])
-            if line_char_list[char_index] == 0:
-                line_char_list[char_index] += 1
-            elif randomizer == 0:
-                line_char_list[char_index] += 1
-            elif randomizer == 1:
-                line_char_list[char_index] -= 1
-            num_bugs -= 1
-            line_char_list[char_index] = str(line_char_list[char_index])
-            break
-        else:
-            continue
-    filelist[line_index] = ''.join(line_char_list)
-    return filelist, num_bugs
-
-
-def period_switch(filelist, num_bugs):
-    '''
-    Randomly switch period to a comma and vice versae.
-    '''
-    new_filelist, num_bugs_update = multi_char_switch(filelist, num_bugs, ',', '.', period_switch)
-    return new_filelist, num_bugs_update
-    
-
-def zero_o_switch(filelist, num_bugs):
-    '''
-    Randomly switch 'o' to a Zero and vice versae.
-    '''
-    new_filelist, num_bugs_update = multi_char_switch(filelist, num_bugs, 'o', '0', zero_o_switch)
-    return new_filelist, num_bugs_update
-
-def elif_else_switch(filelist, num_bugs):
-    '''
-    Randomly switch 'elif' to 'else' and vice versae.
-    '''
-    new_filelist, num_bugs_update = multi_char_switch(filelist, num_bugs, 'elif', 'else', elif_else_switch)
-    return new_filelist, num_bugs_update
-
-def add_subtract_switch(filelist, num_bugs):
-    '''
-    Randomly switch '-' to '+' and vice versa.
-    '''
-    new_filelist, num_bugs_update = multi_char_switch(filelist, num_bugs, '+', '-', add_subtract_switch)
-    return new_filelist, num_bugs_update
-
-def single_bracket_switch(filelist, num_bugs):
-    '''
-    Randomly switch one bracket type with another bracket type.
-    '''
-    bracks_open = ['(','{','[',':',]
-    bracks_closed = [')','}',']',';',':']
-    if random.randint(0,1) == 0:
-        new_filelist, num_bugs_update = multi_char_switch(filelist, num_bugs,random.choice(bracks_open), random.choice(bracks_open), single_bracket_switch)
-    else:
-        new_filelist, num_bugs_update = multi_char_switch(filelist, num_bugs,random.choice(bracks_closed), random.choice(bracks_closed), single_bracket_switch)
-    return new_filelist, num_bugs_update
-
 def all_char_switch(filelist, num_bugs, char1, char2, char3 = '', char4 = '', func_name = ''):
     '''
     Randomly changes all instances of a character in a line with another one.
@@ -187,47 +112,6 @@ def all_char_switch(filelist, num_bugs, char1, char2, char3 = '', char4 = '', fu
     num_bugs -= 1
     filelist[line_index] = ''.join(line_char_list)
             
-    return filelist, num_bugs
-    
-
-def all_bracket_switch1(filelist, num_bugs):
-    '''
-    Switches all bracket types in a random line with another bracket type.
-    '''
-    filelist, num_bugs = all_char_switch(filelist, num_bugs, '(', '[', ')', ']', func_name = all_bracket_switch1)
-    return filelist, num_bugs
-
-def all_bracket_switch2(filelist, num_bugs):
-    '''
-    Switches all bracket types in a random line with another bracket type.
-    '''
-    filelist, num_bugs = all_char_switch(filelist, num_bugs, '(', '{', ')', '}', func_name = all_bracket_switch2)
-    return filelist, num_bugs
-
-def all_bracket_switch3(filelist, num_bugs):
-    '''
-    Switches all bracket types in a random line with another bracket type.
-    '''
-    filelist, num_bugs = all_char_switch(filelist, num_bugs, '[', '{', ']', '}', func_name = all_bracket_switch3)
-    return filelist, num_bugs
-
-def bugged_comment(filelist, num_bugs):
-    '''
-    Replaces comment with a specified comment.
-    '''
-    bug_comment = '#THIS COMMENT HAS BEEN BUGGIFIED!'
-    for line_index in range(len(filelist)):
-        #Prevents conflict with bugged_docstring()
-        if 'DOCSTRING' in filelist[line_index] or '#' not in filelist[line_index]:  
-            continue
-        hash_index = filelist[line_index].index('#')
-        #A '#" without a white space prior to it is not considered a comment
-        #Take ".index('#')" in the previous line as an example
-        if filelist[line_index][hash_index - 1].isspace() and random.randint(1, 3) == 1:
-            line_list = list(filelist[line_index])
-            filelist[line_index] = ''.join(line_list[:hash_index]) + bug_comment
-            num_bugs -= 1
-            break
     return filelist, num_bugs
 
 def docstring_detect(filelist, return_start_end = 'no'):
@@ -279,16 +163,74 @@ def docstring_detect(filelist, return_start_end = 'no'):
         return start_quotes, end_quotes
     return full_doc_list   
 
-def bugged_docstring(filelist, num_bugs):
+
+##########
+##########  Section 2. Bug Functions
+##########
+##########  The functions that are present in global bug_function_list 
+##########  which actually apply the bugs
+##########
+
+
+def period_switch(filelist, num_bugs):
     '''
-    Replaces the lines of a random docstring with #BUGGIFIED DOCSTRING
+    Randomly switch period to a comma and vice versae.
     '''
-    start_quotes, end_quotes = docstring_detect(filelist, return_start_end = 'yes')
-    if start_quotes != [] or end_quotes != []:
-        random_index = (random.randint(0, len(start_quotes))) - 1
-        for docstring_line in range(start_quotes[random_index], (end_quotes[random_index]) + 1):
-            filelist[docstring_line] = '#BUGGIFIED DOCSTRING'.rjust(24)
-        num_bugs -= 1
+    new_filelist, num_bugs_update = multi_char_switch(filelist, num_bugs, ',', '.', period_switch)
+    return new_filelist, num_bugs_update
+    
+def zero_o_switch(filelist, num_bugs):
+    '''
+    Randomly switch 'o' to a Zero and vice versae.
+    '''
+    new_filelist, num_bugs_update = multi_char_switch(filelist, num_bugs, 'o', '0', zero_o_switch)
+    return new_filelist, num_bugs_update
+
+def elif_else_switch(filelist, num_bugs):
+    '''
+    Randomly switch 'elif' to 'else' and vice versae.
+    '''
+    new_filelist, num_bugs_update = multi_char_switch(filelist, num_bugs, 'elif', 'else', elif_else_switch)
+    return new_filelist, num_bugs_update
+
+def add_subtract_switch(filelist, num_bugs):
+    '''
+    Randomly switch '-' to '+' and vice versa.
+    '''
+    new_filelist, num_bugs_update = multi_char_switch(filelist, num_bugs, '+', '-', add_subtract_switch)
+    return new_filelist, num_bugs_update
+
+def single_bracket_switch(filelist, num_bugs):
+    '''
+    Randomly switch one bracket type with another bracket type.
+    '''
+    bracks_open = ['(','{','[',':',]
+    bracks_closed = [')','}',']',';',':']
+    if random.randint(0,1) == 0:
+        new_filelist, num_bugs_update = multi_char_switch(filelist, num_bugs,random.choice(bracks_open), random.choice(bracks_open), single_bracket_switch)
+    else:
+        new_filelist, num_bugs_update = multi_char_switch(filelist, num_bugs,random.choice(bracks_closed), random.choice(bracks_closed), single_bracket_switch)
+    return new_filelist, num_bugs_update
+
+def all_bracket_switch1(filelist, num_bugs):
+    '''
+    Switches all bracket types in a random line with another bracket type.
+    '''
+    filelist, num_bugs = all_char_switch(filelist, num_bugs, '(', '[', ')', ']', func_name = all_bracket_switch1)
+    return filelist, num_bugs
+
+def all_bracket_switch2(filelist, num_bugs):
+    '''
+    Switches all bracket types in a random line with another bracket type.
+    '''
+    filelist, num_bugs = all_char_switch(filelist, num_bugs, '(', '{', ')', '}', func_name = all_bracket_switch2)
+    return filelist, num_bugs
+
+def all_bracket_switch3(filelist, num_bugs):
+    '''
+    Switches all bracket types in a random line with another bracket type.
+    '''
+    filelist, num_bugs = all_char_switch(filelist, num_bugs, '[', '{', ']', '}', func_name = all_bracket_switch3)
     return filelist, num_bugs
 
 def line_switch(filelist, num_bugs):
@@ -391,37 +333,6 @@ def equal_switch(filelist, num_bugs):
     filelist[line_index] = ''.join(line_char_list)
     return filelist, num_bugs
 
-def camel_snake_case(filelist, num_bugs):
-    '''
-    Converts snake_case to camelCase and vice versae.
-    '''
-    line_index, line_char_list = random_line(filelist)
-
-    #If the line contains at least one underscore,
-    #For every underscore in the line,
-    #the letter before the underscore is capitalized
-    #and the underscore is removed.
-    #All the changes made in this line are counted as one num_bug.
-    if '_' in line_char_list:
-        for char_index in range(len(line_char_list) - 1):
-            if line_char_list[char_index] == '_':
-                line_char_list[char_index + 1] = line_char_list[char_index + 1].upper()
-                line_char_list[char_index] = ''
-        num_bugs -= 1
-    #Else if the line contains no underscores,
-    #For every uppercase letter in the line which has an alphanumeric character before it,
-    #each uppercase letter is made lower case with an underscore inserted before it.
-    #All the changes made in this line are counted as one num_bug.
-    elif '_' not in line_char_list:
-        for char_index in range(len(line_char_list)):
-            if line_char_list[char_index].isupper() and line_char_list[char_index - 1].isalnum():
-                line_char_list.insert(char_index, '_')
-                line_char_list[char_index + 1] = line_char_list[char_index + 1].lower()
-        num_bugs -= 1
-
-    filelist[line_index] = ''.join(line_char_list)
-    return filelist, num_bugs
-
 def if_switch(filelist, num_bugs):
     '''
     This function either:
@@ -473,6 +384,83 @@ def if_switch(filelist, num_bugs):
     num_bugs -= 1
     return filelist, num_bugs
 
+def camel_snake_case(filelist, num_bugs):
+    '''
+    Converts snake_case to camelCase and vice versae.
+    '''
+    line_index, line_char_list = random_line(filelist)
+
+    #If the line contains at least one underscore,
+    #For every underscore in the line,
+    #the letter before the underscore is capitalized
+    #and the underscore is removed.
+    #All the changes made in this line are counted as one num_bug.
+    if '_' in line_char_list:
+        for char_index in range(len(line_char_list) - 1):
+            if line_char_list[char_index] == '_':
+                line_char_list[char_index + 1] = line_char_list[char_index + 1].upper()
+                line_char_list[char_index] = ''
+        num_bugs -= 1
+    #Else if the line contains no underscores,
+    #For every uppercase letter in the line which has an alphanumeric character before it,
+    #each uppercase letter is made lower case with an underscore inserted before it.
+    #All the changes made in this line are counted as one num_bug.
+    elif '_' not in line_char_list:
+        for char_index in range(len(line_char_list)):
+            if line_char_list[char_index].isupper() and line_char_list[char_index - 1].isalnum():
+                line_char_list.insert(char_index, '_')
+                line_char_list[char_index + 1] = line_char_list[char_index + 1].lower()
+        num_bugs -= 1
+
+    filelist[line_index] = ''.join(line_char_list)
+    return filelist, num_bugs
+
+def tabs_spaces(filelist, num_bugs):
+    '''
+    Randomly adds or subtracts a space in a tabbed line,
+    or adds a tab or double tab where it doesn't belong.
+    '''
+    line_index, line_char_list = random_line(filelist)
+    randomizer = random.randint(0,2)
+    if line_char_list[:4] == [' ', ' ', ' ', ' ']:
+        if randomizer == 0:
+            line_char_list.insert(0, ' ')
+        elif randomizer == 1:
+            del line_char_list[0]
+        elif randomizer == 2:
+            for x in range(4):
+                line_char_list.insert(0, ' ')
+    else:
+        for x in range(4):
+            line_char_list.insert(0, ' ')
+
+    num_bugs -=1
+    filelist[line_index] = ''.join(line_char_list)
+    return filelist, num_bugs
+
+def num_change(filelist, num_bugs):
+    '''
+    Randomly adds or subtracts an int by 1.
+    '''
+    line_index, line_char_list = random_line(filelist) 
+    for char_index in range(len(line_char_list)):
+        randomizer = random.randint(0,2)
+        if line_char_list[char_index].isdigit() and randomizer != 2:
+            line_char_list[char_index] = int(line_char_list[char_index])
+            if line_char_list[char_index] == 0:
+                line_char_list[char_index] += 1
+            elif randomizer == 0:
+                line_char_list[char_index] += 1
+            elif randomizer == 1:
+                line_char_list[char_index] -= 1
+            num_bugs -= 1
+            line_char_list[char_index] = str(line_char_list[char_index])
+            break
+        else:
+            continue
+    filelist[line_index] = ''.join(line_char_list)
+    return filelist, num_bugs
+
 def missing_blanks(filelist, num_bugs):
     '''
     Replaces 1/3 of the non-whitespace characters in a line with underscores.
@@ -491,7 +479,7 @@ def missing_blanks(filelist, num_bugs):
             global bug_function_list
             bug_function_list.remove(missing_blanks)
             return filelist, num_bugs
-        
+
     spaceless_char_list = [index for index, value in enumerate(line_char_list) if value != ' ']
     for char in range(len(line_char_list) // 3):
         line_char_list[random.choice(spaceless_char_list)] = '_'
@@ -523,29 +511,73 @@ def scrambled_line(filelist, num_bugs):
     filelist[random_line_index] = (num_spaces * ' ') + ' '.join(line_list) + " #Scrambled line!"
     num_bugs -=1
     return filelist, num_bugs
+	
+def bugged_comment(filelist, num_bugs):
+    '''
+    Replaces comment with a specified comment.
+    '''
+    bug_comment = '#BUGGIFIED COMMENT'
+    for line_index in range(len(filelist)):
+        #Prevents conflict with bugged_docstring()
+        if 'DOCSTRING' in filelist[line_index] or '#' not in filelist[line_index]:
+            continue
+        hash_index = filelist[line_index].index('#')
+        #A '#" without a white space prior to it is not considered a comment
+        #Take ".index('#')" in the previous line as an example
+        if filelist[line_index][hash_index - 1].isspace() and random.randint(1, 3) == 1:
+            line_list = list(filelist[line_index])
+            filelist[line_index] = ''.join(line_list[:hash_index]) + bug_comment
+            num_bugs -= 1
+            break
+    return filelist, num_bugs
+
+def bugged_docstring(filelist, num_bugs):
+    '''
+    Replaces the lines of a random docstring with #BUGGIFIED DOCSTRING
+    '''
+    start_quotes, end_quotes = docstring_detect(filelist, return_start_end = 'yes')
+    if start_quotes != [] or end_quotes != []:
+        random_index = (random.randint(0, len(start_quotes))) - 1
+        for docstring_line in range(start_quotes[random_index], (end_quotes[random_index]) + 1):
+            filelist[docstring_line] = '#BUGGIFIED DOCSTRING'.rjust(24)
+        num_bugs -= 1
+    return filelist, num_bugs
 
 
+##########
+##########  Section 3. Global Variables
+##########
+##########  These variables are referred to by the functions in this list as well as by Buggify.py.
+##########
 
-#List of all the bugs which buggify randomly chooses from to implement.    
+
+#This list gets populated with the lines of all the file's docstrings
+#by the docstring_detect() function. It is populated once and then should be unchanged.
+#Functions use this list to ensure that the bugs they're introducing don't apply to docstrings.
+docstring_line_indexes = []
+
+#List of all the bugs which buggify() from Buggify.py randomly chooses from to implement.
+#A few functions access this list in order to remove themselves from it if they are unable
+#to be applied to the file.
 bug_function_list = [
-                 bugged_comment,
-                 bugged_docstring,
-                 tabs_spaces,
-                 num_change,
-                 zero_o_switch,
-                 single_bracket_switch,
-                 all_bracket_switch1,
-                 all_bracket_switch2,
-                 all_bracket_switch3,
-                 elif_else_switch, 
-                 period_switch,
-                 add_subtract_switch,
-                 line_switch,
-                 char_switch,
-                 case_switch,
-                 equal_switch,
-                 camel_snake_case,
-                 if_switch,
-                 missing_blanks,
-                 scrambled_line,
-                 ]
+                    period_switch,
+                    zero_o_switch,
+                    elif_else_switch,
+                    add_subtract_switch,
+                    single_bracket_switch,
+                    all_bracket_switch1,
+                    all_bracket_switch2,
+                    all_bracket_switch3,
+                    line_switch,
+                    char_switch,
+                    case_switch,
+                    equal_switch,
+                    if_switch,
+                    camel_snake_case,
+                    tabs_spaces,
+                    num_change,
+                    missing_blanks,
+                    scrambled_line,
+                    bugged_comment,
+                    bugged_docstring,
+                    ]
