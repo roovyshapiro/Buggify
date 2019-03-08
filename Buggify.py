@@ -10,7 +10,6 @@ def copy_file(file):
     '''
     buggified_file = alter_file_name(file, 'BUGGIFIED')
     shutil.copy(file, buggified_file)
-
     return file, buggified_file
 
 def alter_file_name(full_file_path, word_to_insert, opt_arg = 'same_ext'):
@@ -27,9 +26,7 @@ def alter_file_name(full_file_path, word_to_insert, opt_arg = 'same_ext'):
         new_filename = filename + word_to_insert + ext
     elif opt_arg == 'text':
         new_filename = filename + word_to_insert + ext + '.txt'
-
     return new_filename
-
 
 def convert_to_list(file):
     '''
@@ -38,7 +35,6 @@ def convert_to_list(file):
     with open(file) as f:
         filelist = f.read().splitlines()
     return filelist
-
 
 def diff_output(file, bugfile, answers):
     '''
@@ -61,7 +57,6 @@ def diff_output(file, bugfile, answers):
             f.write('\n')
     return answers
 
-
 def buggify(num_bugs = 20, full_file_path = ''):
     '''
     Main Buggify function.
@@ -73,7 +68,7 @@ def buggify(num_bugs = 20, full_file_path = ''):
     num_bugs: int
         The amount of bugs to introduce.
         Defaults to 20 if left blank.
-    full_file_path: str
+    full_file_path: string
         The full file path of the file to buggify.
         May leave blank to be prompted to choose file.
     '''
@@ -95,7 +90,6 @@ def buggify(num_bugs = 20, full_file_path = ''):
     filechanges = '\n'.join(filelist)
     with open(copy_of_file, 'w') as f:
         f.write(filechanges)
-
     diff_output(original_file, copy_of_file, answer_key)
 
 #call the main function to allow for easy testing
