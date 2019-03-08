@@ -467,6 +467,19 @@ def if_switch(filelist, num_bugs):
     num_bugs -= 1
     return filelist, num_bugs
 
+def missing_blanks(filelist, num_bugs):
+    '''
+    Replaces 1/3 of the non-white space characters in a line with underscores.
+    '''
+    line_index, line_char_list = random_line(filelist)
+    spaceless_char_list = [index for index, value in enumerate(line_char_list) if value != ' ']
+    for char in range(len(line_char_list) // 3):
+        line_char_list[random.choice(spaceless_char_list)] = '_'
+    filelist[line_index] = ''.join(line_char_list)
+    num_bugs -=1
+    return filelist, num_bugs
+    
+
 
 
 #List of all the bugs which buggify randomly chooses from to implement.    
@@ -489,4 +502,5 @@ bug_function_list = [
                  equal_switch,
                  camel_snake_case,
                  if_switch,
+                 missing_blanks,
                  ]
