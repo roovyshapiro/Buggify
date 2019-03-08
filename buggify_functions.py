@@ -469,7 +469,7 @@ def if_switch(filelist, num_bugs):
 
 def missing_blanks(filelist, num_bugs):
     '''
-    Replaces 1/3 of the non-white space characters in a line with underscores.
+    Replaces 1/3 of the non-whitespace characters in a line with underscores.
     '''
     line_index, line_char_list = random_line(filelist)
     spaceless_char_list = [index for index, value in enumerate(line_char_list) if value != ' ']
@@ -479,6 +479,30 @@ def missing_blanks(filelist, num_bugs):
     num_bugs -=1
     return filelist, num_bugs
     
+def scrambled_line(filelist, num_bugs):
+    '''
+    Rearranges all the words in a random line.
+    
+    Words are defined as being separated by whitespaces.
+    random_line() is called here with the 'no_line_list' argument
+    so that a full line is returned instead of a list of characters.
+    Unfortunately, .split() removes the whitespaces from
+    the beginning of the line.
+    Therefore, beginning whitespaces are counted up and added
+    to the beginning of the line.
+    '''
+    random_line_index = random_line(filelist, 'no_line_list')
+    num_spaces = 0
+    for char in filelist[random_line_index]:
+        if char == ' ':
+            num_spaces += 1
+        else:
+            break
+    line_list = filelist[random_line_index].split()
+    random.shuffle(line_list)
+    filelist[random_line_index] = (num_spaces * ' ') + ' '.join(line_list)
+    num_bugs -=1
+    return filelist, num_bugs
 
 
 
@@ -503,4 +527,5 @@ bug_function_list = [
                  camel_snake_case,
                  if_switch,
                  missing_blanks,
+                 scrambled_line,
                  ]
