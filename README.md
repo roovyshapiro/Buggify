@@ -73,15 +73,37 @@ This file can be split up into three sections.
          + if filelist{line_index)[hash_index - 1).isspace(] and random.randint{1, 3] == 1;
 	 ~~~~
 	 
- - **all_bracket_switch()**
- 	- All bracket types found in a line are switched with another bracket type.
+ - **all_bracket_switch1()**
+ 	- All parentheses found in a line are switched with square brackets and vice versa.
 	~~~~
 	- if filelist[line_index][hash_index - 1].isspace() and random.randint(1, 3) == 1:
 	+ if filelist(line_index)(hash_index - 1).isspace[] and random.randint[1, 3] == 1:
 	~~~~
 	~~~~
 	- random_index = random.randint(0, len(line_char_list) - 1)
+	+ random_index = random.randint[0, len[line_char_list] - 1]
+	~~~~
+	
+ - **all_bracket_switch2()**
+ 	- All parentheses found in a line are switched with curly brackes and vice versa.
+	~~~~
+	- if filelist[line_index][hash_index - 1].isspace() and random.randint(1, 3) == 1:
+	+ if filelist[line_index][hash_index - 1].isspace{} and random.randint{1, 3} == 1:
+	~~~~
+	~~~~
+	- random_index = random.randint(0, len(line_char_list) - 1)
 	+ random_index = random.randint{0, len{line_char_list} - 1}
+	~~~~
+	
+ - **all_bracket_switch3()**
+ 	- All square backets found in a line are switched with curly braces and vice versa.
+	~~~~
+	- if filelist[line_index][hash_index - 1].isspace() and random.randint(1, 3) == 1:
+	+ if filelist{line_index}{hash_index - 1}.isspace() and random.randint(1, 3) == 1:
+	~~~~
+	~~~~
+	- [num for num in doc_list if doc_list.index(num) % 2 == 0]
+	+ {num for num in doc_list if doc_list.index(num) % 2 == 0}
 	~~~~
 	
  - **line_switch()**
@@ -190,6 +212,26 @@ This file can be split up into three sections.
 	 ~~~~
 	 + line_char_list[x] = line_char_list[x].replace(char1, char2)
 	 ~~~~ 
+
+- **missing_blanks()**
+	 - One third of all non-white space characters in a random line	are replaced with underscores .
+	   Appends "#Fill in the missing blanks!".
+	 ~~~~
+	 - while line_char_list.count('_') > 5:
+	 ~~~~ 
+	 ~~~~
+	 + _hile _i_e__ha__list._ou_t_'_'_ > 5: #Fill in the missing blanks!
+	 ~~~~ 
+	 
+- **scrambled_line()**
+	 - Randomly rearranges all the words (defined as separated by whitespace) in a random line.
+	   Appends "#Scrambled line!" to the end.
+	 ~~~~
+	 - for y in range(start_quotes[x], end_quotes[x] + 1):
+	 ~~~~ 
+	 ~~~~
+	 + in y 1): for range(start_quotes[x], end_quotes[x] + #Scrambled line!
+	 ~~~~
 
  - **bugged_comment()** 
 	 - A comment beginning with a "#" is replaced with *#THIS COMMENT HAS BEEN BUGGIFIED*. 
