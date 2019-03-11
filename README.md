@@ -237,7 +237,7 @@ This file can be split up into three sections.
 	 
 - **scrambled_line()**
 	 - Randomly rearranges all the words (defined as separated by whitespace) in a random line.
-	   Appends "#Scrambled line!" to the end.
+	   Appends "#Scrambled line!".
 	 ~~~~
 	 - for y in range(start_quotes[x], end_quotes[x] + 1):
 	 ~~~~ 
@@ -246,18 +246,18 @@ This file can be split up into three sections.
 	 ~~~~
 
  - **bugged_comment()** 
-	 - A comment beginning with a "#" is replaced with *#THIS COMMENT HAS BEEN BUGGIFIED*. 
+	 - A comment beginning with a "#" is replaced with *#BUGGIFIED COMMENT*. 
 	 While not a syntax or logical error *per se*, it does make the code more difficult to understand.  
-	    ~~~~ 
-          if full_file_path == '':
-        - #Removes small Tk window and prompts user to choose file.
-          Tk().withdraw()
-	    ~~~~
-	    ~~~~
-	      if full_file_path == '':
-        + #THIS COMMENT HAS BEEN BUGGIFIED
-          Tk().withdraw()
-	    ~~~~
+	  ~~~~ 
+            if full_file_path == '':
+          - #Removes small Tk window and prompts user to choose file.
+            Tk().withdraw()
+	  ~~~~
+	  ~~~~
+	    if full_file_path == '':
+          + #BUGGIFIED COMMENT
+            Tk().withdraw()
+	  ~~~~
 	 
  - **bugged_docstring()**
 	 - A full docstring is replaced with *#BUGGIFIED DOCSTRING*. 
