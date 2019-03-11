@@ -1,6 +1,16 @@
 # Buggify Overview
 Buggify is a Python bugger which automatically inserts a random variety of syntax and logical errors into a program file. Buggify is a great tool for educational/training purposes, interview/coding challenges, or even as a way to prank your friends!
 
+
+#### In this example, 
+- Buggify.py is double clicked. 
+- buggify_functions.py is chosen in the file prompt. 
+- Two files are automatically generated:
+    - buggify_functionsBUGGIFIED.py -> _The version of the file with all the bugs added to it._
+    - buggify_functionsBUG-ANSWERKEY.py.txt -> _The answer key which contains a Diff between the two files showing what has changed._
+___    
+![](https://i.imgur.com/FGx906Z.gif)
+___
 # Buggify.py Overview
 The main function that does all the work is buggify(). Here's how it works:
 ~~~~
@@ -19,6 +29,8 @@ This file can be split up into three sections.
 1. Helper Functions - Functions that are used by other functions. 
 2. Bug Functions - The functions that are present in bug_function_list which actually apply the bugs.
 3. Global Variables.
+
+
 
 ## Implemented Bug functions in bug_function_list
 
