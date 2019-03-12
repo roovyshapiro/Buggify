@@ -26,6 +26,14 @@ def alter_file_name(full_file_path, word_to_insert, opt_arg = 'same_ext'):
         new_filename = filename + word_to_insert + ext
     elif opt_arg == 'text':
         new_filename = filename + word_to_insert + ext + '.txt'
+    # Without incrementing new_filename, the file will simply be replaced
+    # if buggify() is run multiple times on the same file.
+    num_file = 1
+    while new_filename in os.listdir():
+        new_filename = filename + word_to_insert + "-" + str(num) + ext
+        num += 1
+        if opt_arg == 'text':
+            new_filename = new_filename + '.txt'
     return new_filename
 
 def convert_to_list(file):
