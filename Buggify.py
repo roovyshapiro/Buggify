@@ -80,10 +80,35 @@ def buggify(num_bugs = 20, full_file_path = ''):
         The full file path of the file to buggify.
         May leave blank to be prompted to choose file.
     '''
+    #If this program is run from command line,
+    #allow it to take arguments as well.
+    #Arguments may be in any order and may be either the file
+    #or the number of bugs.
+    if __name__ == "__main__":
+        if len(sys.argv) == 1:
+            num_bugs = 20
+            full_file_path = ''
+        elif len(sys.argv) <= 3:
+            for argument in sys.argv[1:]:
+                if argument.isnumeric():
+                    num_bugs = int(argument)
+                elif type(argument) == str:
+                    full_file_path = argument
+        elif len(sys.argv) < 1 or len(sys.argv) > 3:
+            sys.exit("Invalid Arguments!")
+
+    #When this program is imported via the python shell,
+    #this is needed to ensure that a single argument may be given.
+    if type(num_bugs) == str:
+        full_file_path = num_bugs
+        num_bugs = 20
+        
+    #If no file has been specified,
+    #Removes small Tk window and prompts user to choose file.
     if full_file_path == '':
-        #Removes small Tk window and prompts user to choose file.
         Tk().withdraw()
         full_file_path = askopenfilename()
+        
     original_file, copy_of_file = copy_file(full_file_path)   
     filelist = convert_to_list(copy_of_file)
     #Answer key becomes a .txt file for easier reviewing
@@ -101,4 +126,5 @@ def buggify(num_bugs = 20, full_file_path = ''):
     diff_output(original_file, copy_of_file, answer_key)
 
 #call the main function to allow for easy testing
-buggify()
+if __name__ == "__main__":
+    buggify()
