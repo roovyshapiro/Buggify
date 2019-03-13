@@ -118,6 +118,7 @@ def buggify(num_bugs = 20, full_file_path = ''):
             filelist, num_bugs = bf.bug_function_list[random_num](filelist, num_bugs)
         except ValueError:
             print('ERROR! buggify() may not have run successfully on ' + original_file)
+            print('Is the selected file or bug_function_list empty?')
             break
     filechanges = '\n'.join(filelist)
     with open(copy_of_file, 'w') as f:
@@ -127,3 +128,4 @@ def buggify(num_bugs = 20, full_file_path = ''):
 #call the main function to allow for easy testing
 if __name__ == "__main__":
     buggify()
+

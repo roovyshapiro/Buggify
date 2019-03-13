@@ -494,19 +494,34 @@ def scrambled_line(filelist, num_bugs):
     Words are defined as being separated by whitespaces.
     random_line() is called here with the 'no_line_list' argument
     so that a full line is returned instead of a list of characters.
+    
+    Attempt to find a line with at least 4 words.
+    If no such line is found after 50 tries, then this function is removed.
+    
     Unfortunately, .split() removes the whitespaces from
     the beginning of the line.
     Therefore, beginning whitespaces are counted up and added
     to the beginning of the line.
     '''
     random_line_index = random_line(filelist, 'no_line_list')
+    line_list = filelist[random_line_index].split()
+
+    line_search_tries = 50
+    while len(line_list) < 4:
+        random_line_index = random_line(filelist, 'no_line_list')
+        line_list = filelist[random_line_index].split()
+        line_search_tries -= 1
+        if line_search_tries == 0:
+            global bug_function_list
+            bug_function_list.remove(scrambled_line)
+            return filelist, num_bugs
+        
     num_spaces = 0
     for char in filelist[random_line_index]:
         if char == ' ':
             num_spaces += 1
         else:
             break
-    line_list = filelist[random_line_index].split()
     random.shuffle(line_list)
     filelist[random_line_index] = (num_spaces * ' ') + ' '.join(line_list) + " #Scrambled line!"
     num_bugs -=1
