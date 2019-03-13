@@ -1,13 +1,19 @@
 ***NEW FEATURES***
--Consider consolidating both py files into one file for easier use
--Alternatively pursue a GUI implementation / Pyinstaller
 -Grammar mode
 	-Allows for automatic inputting of Grammar, spelling and punctuation errors 
 	 geared more towards education
 -Programming Language specific bugs 
 	-Possible abstraction of functions to be more customizable based on the language
 	-Automatically detect language based on file extension
-
+-Add documentation with some examples for how to run Buggify().
+	-To run Buggify on every file in the current directory with 20 Bugs:
+		->>>import os, Buggify
+		 >>>files = [file for file in os.listdir('.') if os.path.isfile(file)]
+		 >>>for file in files:
+		 >>>    Buggify.buggify(file, 20)
+	-To run Buggify from command line:
+	    -python Buggify.exe('file', num_bugs) #Supply either argument, both arguments, or none. Order doesn't matter.
+		
 ***ISSUES***
 -Must test with various file types to anticipate encoding errors.
 -Must test with various file types to anticipate errors with bugs not 

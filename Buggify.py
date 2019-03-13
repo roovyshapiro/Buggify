@@ -80,10 +80,9 @@ def buggify(num_bugs = 20, full_file_path = ''):
         The full file path of the file to buggify.
         May leave blank to be prompted to choose file.
     '''
-    #If this program is run from command line,
-    #allow it to take arguments as well.
-    #Arguments may be in any order and may be either the file
-    #or the number of bugs.
+    #Allow buggify() to take arguments if run from command line.
+    #Arguments may be either the filename, the amount of bugs or both.
+    #Arguments can be supplied in any order.
     if __name__ == "__main__":
         if len(sys.argv) == 1:
             num_bugs = 20
@@ -118,7 +117,7 @@ def buggify(num_bugs = 20, full_file_path = ''):
             random_num = random.randint(0,len(bf.bug_function_list) - 1)
             filelist, num_bugs = bf.bug_function_list[random_num](filelist, num_bugs)
         except ValueError:
-            print('buggify() errors!')
+            print('ERROR! buggify() may not have run successfully on ' + original_file)
             break
     filechanges = '\n'.join(filelist)
     with open(copy_of_file, 'w') as f:
