@@ -97,8 +97,13 @@ def buggify(num_bugs = 20, full_file_path = ''):
             sys.exit("Invalid Arguments!")
 
     #When this program is imported via the python shell,
-    #this is needed to ensure that a single argument may be given.
-    if type(num_bugs) == str:
+    #this is needed to ensure that either single argument may be given.
+    if type(num_bugs) == str and type(full_file_path) ==int:
+        file = num_bugs
+        num = full_file_path
+        full_file_path = file
+        num_bugs = num
+    elif type(num_bugs) == str:
         full_file_path = num_bugs
         num_bugs = 20
         
