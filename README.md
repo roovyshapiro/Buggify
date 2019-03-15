@@ -1,15 +1,67 @@
 # Buggify Overview
 Buggify is a Python bugger which automatically inserts a random variety of syntax and logical errors into a program file. Buggify is a great tool for educational/training purposes, interview/coding challenges, or even as a way to prank your friends!
 
+# How To Run This
+## Buggify.EXE
+Pyinstaller was used with the --onefile argument to generate the .exe so that this can be run without installing Python.
+~~~~
+>pip install pyinstaller
+>pyinstaller Buggify.py --onefile
+~~~~
+#### Double-Click
+The easiest method is to simply download Buggify.exe and double click it. You will be prompted to select a file. Assuming we select testfile.py, two files will be automatically generated:
+    - testfileBUGGIFIED.py -> _The version of the file with all the bugs added to it._
+    - testfileBUG-ANSWERKEY.py.txt -> _The answer key which contains a Diff between the two files showing what has changed._
 
-#### In this example, 
-- Buggify.py is double clicked. 
-- buggify_functions.py is chosen in the file prompt. 
-- Two files are automatically generated:
-    - buggify_functionsBUGGIFIED.py -> _The version of the file with all the bugs added to it._
-    - buggify_functionsBUG-ANSWERKEY.py.txt -> _The answer key which contains a Diff between the two files showing what has changed._
-___    
-![](https://i.imgur.com/FGx906Z.gif)
+#### Command Line - Windows
+By default, Buggify.exe runs with 20 bugs. If you'd like to add more you should run Buggify.exe from the command line.
+Open up command prompt (cmd.exe) and navigate to the folder where Buggify.exe was saved. 
+Type `Buggify.exe` followed by up to two arguments. The arguments are the file and the number of bugs. 
+- The arguments are optional and can be entered in any order. 
+- If the number of bugs is left out, it will default to 20.
+- If the file is left out, you will be prompted to select one.
+- If the file you're trying to select is in a different location than the .exe, you'll need to type the full file path.
+- If you're not in the same directory as Buggify.exe, you'll need type the full path to Buggify.exe.
+All of these are valid commands:
+~~~~
+#Both Buggify.exe and testfile.py are in the same directory as the command prompt.
+>Buggify.exe testfile.py 15 
+
+#Only Buggify.exe is in the same path as the command prompt.
+>Buggify.exe 15 C:\Temp\testfile.py 
+
+#Only testfile.py is in the same path as the command prompt. Number of bugs defaults to 20.
+>C:\Temp\Buggify.exe testfile.py
+
+#Buggify.exe is in the same path as the command prompt. User is prompted to select a file.
+>Buggify.exe 15
+~~~~
+#### Command Line - Linux
+Download and Save Buggify.py. Navigate to the directory where it was saved, open up a terminal and type the following:
+~~~~
+python3 Buggify.py
+~~~~
+The same rules regarding the optional arguments apply.
+
+## Buggify.buggify()
+You can also import Buggify and run it with Python. This is much faster and allows some additional options. 
+~~~~
+>>>import Buggify
+>>>Buggify.buggify('testfile.py', 15) #Type the full path to the file if it's not in the same directory.
+~~~~
+Run Buggify 20 times on the same file to generate 20 unique Buggified copies:
+~~~~
+>>>import Buggify
+>>>for x in range(20):
+>>>    Buggify.buggify('testfile.py', 15')
+~~~~
+Run Buggify on every file in the current directory with the default 20 bugs:
+~~~~
+>>>import Buggify, os
+>>>files = [file for file in os.listdir('.') if os.path.isfile(file)] #Creates a list of all the files in the current directory
+>>>for file in files:
+>>>    Buggify.buggify(file)
+~~~~
 ___
 # Buggify.py Overview
 The main function that does all the work is buggify(). Here's how it works:
@@ -18,19 +70,20 @@ buggify(num_bugs, file)
 ~~~~
  1. Specify the number of bugs you'd like to introduce and the file you'd like to apply the bugs to. If the number of bugs is left blank, it will default to 20. If the file isn't specified, the user will be prompted to choose one.  
  2. The file is copied to a new file with "BUGGIFIED" appended to the file name but before the extension. This ensures that no changes will be made to the original file.
- 3. buggify() calls on **bug_function_list** which is a global list in buggify_functions.py that stores all the different bug functions. Num_bugs acts as a range in a foor loop and each time buggify() chooses one function at random from this list to insert into the new copied file.
+ 3. buggify() calls on **bug_function_list** which is a global list that stores all the different bug functions. Num_bugs acts as a range in a foor loop and each time buggify() chooses one function at random from this list to insert into the new copied file.
  4. Once completed, a diff is stored as a new text file showing the differences between the original and Buggified files. The diff is renamed with "BUG-ANSWERKEY" appended to the file name.
 
-# buggify_functions.py Overview
-The primary purpose of this file is the global list variable, **bug_function_list**.
-The buggify() function in Buggify.py chooses functions at random from this list in order to affect the buggified file.
-
-This file can be split up into three sections.
-1. Helper Functions - Functions that are used by other functions. 
-2. Bug Functions - The functions that are present in bug_function_list which actually apply the bugs.
-3. Global Variables.
-
-
+# Sections
+This file can be logically split up into two major sections.
+1. Section 1 deals with copying the file, changing the file name,
+generating the diff/answer key, and running the actual
+main buggify() function. 
+buggify() chooses from a list of "bug functions" to apply to the file at random.
+2. Section 2 contains these bug functions and is further logically divided
+into three sections: 
+   1. Section 2-1 Helper functions - Functions that are used by other functions in Section 2-2
+   2. Section 2-2 Bug functions - Functions that are present in bug_function_list which apply the actual bugs
+   3. Section 2-3 Global variables - Variables that are referenced by other functions.
 
 ## Implemented Bug functions in bug_function_list
 
