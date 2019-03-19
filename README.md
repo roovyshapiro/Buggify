@@ -10,8 +10,8 @@ Pyinstaller was used with the --onefile argument to generate the .exe so that th
 ~~~~
 #### Double-Click
 The easiest method is to simply download Buggify.exe and double click it. You will be prompted to select a file. Assuming we select testfile.py, two files will be automatically generated:
-    - testfileBUGGIFIED.py -> _The version of the file with all the bugs added to it._
-    - testfileBUG-ANSWERKEY.py.txt -> _The answer key which contains a Diff between the two files showing what has changed._
+- testfileBUGGIFIED.py -> _The version of the file with all the bugs added to it._
+- testfileBUG-ANSWERKEY.py.txt -> _The answer key which contains a Diff between the two files showing what has changed._
 
 #### Command Line - Windows
 By default, Buggify.exe runs with 20 bugs. If you'd like to add more you should run Buggify.exe from the command line.
