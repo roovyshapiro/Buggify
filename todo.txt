@@ -25,7 +25,6 @@
 		>>>    Buggify.buggify(file)
 		
 ***ISSUES***
--Must test with various file types to anticipate encoding errors.
 -Must test with various file types to anticipate errors with bugs not 
  able to be applied. For example, what if a text file doesn't contain triple quotes -
  ''' , how will it react?

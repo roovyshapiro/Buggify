@@ -52,7 +52,7 @@ def convert_to_list(file):
     '''
     Returns the new BUGGIFIED file we created as a list.
     '''
-    with open(file) as f:
+    with open(file, errors='ignore') as f:
         filelist = f.read().splitlines()
     return filelist
 
@@ -60,7 +60,8 @@ def diff_output(file, bugfile, answers):
     '''
     Returns a diff file between the original file and the buggified file.
     '''
-    with open(file) as f1:
+
+    with open(file, errors='ignore') as f1:
         f1_txt = f1.read().splitlines()
         with open(bugfile) as f2:
             f2_txt = f2.read().splitlines()
