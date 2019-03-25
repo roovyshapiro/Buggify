@@ -120,24 +120,24 @@ into three sections:
 	 - Switches a zero to a lower case 'o' and vice versa.
 	 ~~~~
 	 - random_index = random.randint(0, len(line_char_list) - 1)
-         + random_index = rand0m.randint(o, len(line_char_list) - 1)
+    + random_index = rand0m.randint(o, len(line_char_list) - 1)
 	 ~~~~
 	 
  - **elif_else_switch()**
 	 - Switches "else" to "elif" and vice versa.
 	 ~~~~
-	  if randomizer == 0:
-              line_char_list.insert(0, ' ')
-         - elif randomizer == 1:
-              del line_char_list[0]
-         - else randomizer == 2:
+	   if randomizer == 0:
+           line_char_list.insert(0, ' ')
+    - elif randomizer == 1:
+           del line_char_list[0]
+    - else randomizer == 2:
 	 ~~~~
 	 ~~~~
-	  if randomizer == 0:
-              line_char_list.insert(0, ' ')
-         + else randomizer == 1:
-              del line_char_list[0]
-         + elif randomizer == 2:
+       if randomizer == 0:
+           line_char_list.insert(0, ' ')
+    + else randomizer == 1:
+           del line_char_list[0]
+    + elif randomizer == 2:
 	 ~~~~
 	 
  - **add_subtract_switch()**
@@ -150,10 +150,10 @@ into three sections:
 	 ~~~~ 
 	 
  - **single_bracket_switch()**
-	- A bracket character is changed with another bracket type character once per line.
+	 - A bracket character is changed with another bracket type character once per line.
 	 ~~~~
 	 - if filelist[line_index][hash_index - 1].isspace() and random.randint(1, 3) == 1:
-         + if filelist{line_index)[hash_index - 1).isspace(] and random.randint{1, 3] == 1;
+    + if filelist{line_index)[hash_index - 1).isspace(] and random.randint{1, 3] == 1;
 	 ~~~~
 	 
  - **all_bracket_switch1()**
@@ -192,24 +192,24 @@ into three sections:
  - **line_switch()**
 	 - Switches a full line with the line before it.
 	 ~~~~
-	  line_char_list[x] = line_char_list[x].replace(char1, char2)
-         - num_bugs -=1
-         - break
+	   line_char_list[x] = line_char_list[x].replace(char1, char2)
+     - num_bugs -=1
+     - break
 	 ~~~~
 	 ~~~~
-	 line_char_list[x] = line_char_list[x].replace(char1, char2)
-         + break
-         + num_bugs -=1
+	   line_char_list[x] = line_char_list[x].replace(char1, char2)
+     + break
+     + num_bugs -=1
 	 ~~~~
 	 
  - **char_switch()**
  	- Switches a character with the one before it.
 	~~~~	    
-    - return new_filelist, num_bugs_update
+        - return new_filelist, num_bugs_update
 	~~~~	
 	~~~~	    
-    + return new_filelsit, num_bugs_update
-    	~~~~
+        + return new_filelsit, num_bugs_update
+    ~~~~
 
  - **case_switch()**
 	 - Switches the first character in a word from lower case to upper case and vice versa.
@@ -240,17 +240,17 @@ into three sections:
 		 +  line_char_list[char_index] == 0
                     line_char_list[char_index] += 1
 		 ~~~~
-	    - Option #2: 
-		    - Adds an 'if' to the beginning of the line and a ':' to the end of the line. 
-		      Additionally, the following line is indented with four additional spaces.
-		    ~~~~
+	  - Option #2: 
+		  - Adds an 'if' to the beginning of the line and a ':' to the end of the line. 
+		  Additionally, the following line is indented with four additional spaces.
+		   ~~~~
 		    - first_line = filelist[random_line_index]
 		    - second_line = filelist[random_line_index - 1]
-		    ~~~~
-		    ~~~~
+		   ~~~~
+		   ~~~~
 		    + if first_line = filelist[random_line_index]:
 		    +     second_line = filelist[random_line_index - 1]
-		    ~~~~
+		   ~~~~
 
  - **camel_snake_case()**
 	 - Switches a phrase written in snake_case to camelCase and vice versa.
@@ -319,19 +319,19 @@ into three sections:
  - **bugged_comment()** 
 	 - A comment beginning with a "#" is replaced with *#BUGGIFIED COMMENT*. 
 	 While not a syntax or logical error *per se*, it does make the code more difficult to understand.  
-	  ~~~~ 
-            if full_file_path == '':
-          - #Removes small Tk window and prompts user to choose file.
-            Tk().withdraw()
+	 ~~~~ 
+       if full_file_path == '':
+    - #Removes small Tk window and prompts user to choose file.
+       Tk().withdraw()
 	  ~~~~
 	  ~~~~
 	    if full_file_path == '':
-          + #BUGGIFIED COMMENT
-            Tk().withdraw()
+    + #BUGGIFIED COMMENT
+        Tk().withdraw()
 	  ~~~~
 	 
  - **bugged_docstring()**
-	 - A full docstring is replaced with *#BUGGIFIED DOCSTRING*. 
+    - A full docstring is replaced with *#BUGGIFIED DOCSTRING*. 
 	   This is similar to bugged_comment() in that its not a syntax or logical error *per se*, 
 	   but it does make functions more difficult to understand.
 	 ~~~~
