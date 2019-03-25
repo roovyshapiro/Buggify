@@ -130,6 +130,12 @@ def buggify(num_bugs = 20, full_file_path = ''):
     filelist = convert_to_list(copy_of_file)
     #Answer key becomes a .txt file for easier reviewing
     answer_key = alter_file_name(original_file, 'BUG-ANSWERKEY', 'text')
+    if len(filelist) < 3:
+        error_message = ("Failed to Buggify: " + original_file + "\nFile is too small!")
+        with open(answer_key, 'w') as f:
+            f.write(error_message)
+        print(error_message)
+        return error_message
     while num_bugs > 1:
         try:
             random_num = random.randint(0,len(bug_function_list) - 1)
