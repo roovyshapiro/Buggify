@@ -1,5 +1,11 @@
 # Buggify Overview
-Buggify is a Python bugger which automatically inserts a random variety of syntax and logical errors into a program file. Buggify is a great tool for educational/training purposes, interview/coding challenges, or even as a way to prank your friends!
+Buggify is a Python bugger which automatically inserts a random variety of syntax and logical errors into a program file. 
+
+Assuming we select testfile.py to be buggified, two files will be automatically generated:
+- testfileBUGGIFIED.py -> _The version of the file with all the bugs added to it._
+- testfileBUG-ANSWERKEY.py.txt -> _The answer key which contains a Diff between the two files showing what has changed._
+
+Buggify is a great tool for educational/training purposes, interview/coding challenges, or even as a way to prank your friends!
 
 # How To Run This
 ## Buggify.EXE
@@ -9,9 +15,8 @@ Pyinstaller was used with the --onefile argument to generate the .exe so that th
 >pyinstaller Buggify.py --onefile
 ~~~~
 #### Double-Click
-The easiest method is to simply download Buggify.exe and double click it. You will be prompted to select a file. Assuming we select testfile.py, two files will be automatically generated:
-- testfileBUGGIFIED.py -> _The version of the file with all the bugs added to it._
-- testfileBUG-ANSWERKEY.py.txt -> _The answer key which contains a Diff between the two files showing what has changed._
+The easiest method is to simply download Buggify.exe and double click it. You will be prompted to select a file. 
+It will automatically ouput the buggified version (with a default of 20 bugs applied) and the answer key.
 
 #### Command Line - Windows
 By default, Buggify.exe runs with 20 bugs. If you'd like to add more you should run Buggify.exe from the command line.
