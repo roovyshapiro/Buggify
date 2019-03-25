@@ -22,3 +22,23 @@
 ***BUG FUNCTION IDEAS***
 -Insert charachter at random point in the line
 	-Duplicate the charachter?
+
+
+***TESTING***
+from Buggify import buggify
+import os
+
+list_of_files = []
+for root, subfolders, files in os.walk('C:\\Users\\roovy.q\\Documents\\<Directory Name>'):
+    for file in files:
+        path = os.path.join(root, file)
+        filepath = os.path.abspath(path)
+        if "git\\" not in filepath:
+            list_of_files.append(filepath)
+
+def test_buggify(list_of_files):
+    for file in list_of_files:
+        print(file)
+        buggify(file, 500)
+        
+test_buggify(list_of_files)
