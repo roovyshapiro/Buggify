@@ -437,6 +437,13 @@ def case_switch(filelist, num_bugs):
         line_index, line_char_list = random_line(filelist)
         for char_index in range(len(line_char_list)):
             randomizer = random.randint(0, 3)
+            if ' ' not in line_char_list:
+                if line_char_list[0].isupper():
+                    line_char_list[0] = line_char_list[0].lower()
+                elif line_char_list[0].islower():
+                    line_char_list[0] = line_char_list[0].upper()
+                num_bugs -= 1
+                break
             if line_char_list[char_index].isalpha() and line_char_list[char_index - 1] == ' ' and randomizer == 1:
                 if line_char_list[char_index].isupper():
                     line_char_list[char_index] = line_char_list[char_index].lower()
