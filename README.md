@@ -62,6 +62,19 @@ Run Buggify on every file in the current directory with the default 20 bugs:
 >>>for file in files:
 >>>    Buggify.buggify(file)
 ~~~~
+Run Buggify on every file in the current directory and all of its subdirectories with the default 20 bugs:
+~~~~
+>>>import os, Buggify
+>>>list_of_files = []
+>>>for root, subfolders, files in os.walk("."):
+>>>    for file in files:
+>>>        path = os.path.join(root, file)
+>>>        filepath = os.path.abspath(path)
+>>>        list_of_files.append(filepath)
+>>>
+>>>for file in list_of_files:
+>>>    Buggify.buggify(file)
+~~~~
 ___
 # Buggify.py Overview
 The main function that does all the work is buggify(). Here's how it works:
