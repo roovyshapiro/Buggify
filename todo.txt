@@ -2,6 +2,7 @@
 -Grammar mode
 	-Allows for automatic inputting of Grammar, spelling and punctuation errors 
 	 geared more towards education
+
 -Programming Language specific bugs 
 	-Possible abstraction of functions to be more customizable based on the language
 	-Automatically detect language based on file extension
@@ -20,25 +21,6 @@
 		 it should execute once before exiting	
 
 ***BUG FUNCTION IDEAS***
--Insert charachter at random point in the line
-	-Duplicate the charachter?
+-Insert character at random point in the line
+	-Duplicate the character?
 
-
-***TESTING***
-from Buggify import buggify
-import os
-
-list_of_files = []
-for root, subfolders, files in os.walk('C:\\Users\\roovy.q\\Documents\\<Directory Name>'):
-    for file in files:
-        path = os.path.join(root, file)
-        filepath = os.path.abspath(path)
-        if "git\\" not in filepath:
-            list_of_files.append(filepath)
-
-def test_buggify(list_of_files):
-    for file in list_of_files:
-        print(file)
-        buggify(file, 500)
-        
-test_buggify(list_of_files)
