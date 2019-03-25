@@ -72,7 +72,7 @@ def diff_output(file, bugfile, answers):
                 tofile='f2.txt',
                 n = 0,
                 )
-    with open(answers,'w') as f:
+    with open(answers,'w', errors='ignore') as f:
         for line in diff:
             f.write(line)
             f.write('\n')
@@ -135,11 +135,10 @@ def buggify(num_bugs = 20, full_file_path = ''):
             random_num = random.randint(0,len(bug_function_list) - 1)
             filelist, num_bugs = bug_function_list[random_num](filelist, num_bugs)
         except ValueError:
-            print('ERROR! buggify() may not have run successfully on ' + original_file)
-            print('Is the selected file or bug_function_list empty?')
+            print('WARNING! ValueError: buggify() may not have run successfully on ' + original_file)
             break
     filechanges = '\n'.join(filelist)
-    with open(copy_of_file, 'w') as f:
+    with open(copy_of_file, 'w', errors='ignore') as f:
         f.write(filechanges)
     diff_output(original_file, copy_of_file, answer_key)
 
