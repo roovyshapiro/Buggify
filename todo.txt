@@ -22,7 +22,8 @@
 ***BUG FUNCTION IDEAS***
 -Insert charachter at random point in the line
 	-Duplicate the charachter?
-
+-Replace Break with Continue and vice versae
+-Turn function Return into print statement
 
 ***TESTING***
 from Buggify import buggify
