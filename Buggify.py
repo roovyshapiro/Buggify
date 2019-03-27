@@ -189,7 +189,7 @@ class CreateBugs:
             line_index, line_char_list = self.random_line(filelist)
             line_search_tries -= 1
             if line_search_tries == 0:
-                self.bug_function_list.remove(equal_switch)
+                self.bug_function_list.remove(self.equal_switch)
                 return filelist, num_bugs
             
         randomizer = random.randint(0,1)
@@ -354,7 +354,7 @@ class CreateBugs:
             line_index, line_char_list = self.random_line(filelist)
             line_search_tries -= 1
             if line_search_tries == 0:
-                self.bug_function_list.remove(missing_blanks)
+                self.bug_function_list.remove(self.missing_blanks)
                 return filelist, num_bugs
 
         spaceless_char_list = [index for index, value in enumerate(line_char_list) if value != ' ']
@@ -389,7 +389,7 @@ class CreateBugs:
             line_list = filelist[self.random_line_index].split()
             line_search_tries -= 1
             if line_search_tries == 0:
-                self.bug_function_list.remove(scrambled_line)
+                self.bug_function_list.remove(self.scrambled_line)
                 return filelist, num_bugs
             
         num_spaces = 0
