@@ -659,7 +659,7 @@ class Buggify:
         self.bug_function_list = self.create_bugs.bug_function_list
         self.filemanager = FileManager()
 
-    def buggify(self, num_bugs = 20, full_file_path = ''):
+    def buggify(self, num_bugs=20, full_file_path=''):
         '''
         Main Buggify function.
         1. Creates copy of file and alters the filename
@@ -672,44 +672,12 @@ class Buggify:
             Defaults to 20 if left blank.
         full_file_path: string
             The full file path of the file to buggify.
-            May leave blank to be prompted to choose file.
+            May leave blank to be prompted to choose file. <<<< important to remember 
         '''
-        #Allow buggify() to take arguments if run from command line.
-        #Arguments may be either the filename, the amount of bugs or both.
-        #Arguments can be supplied in any order.
-
-        if len(sys.argv) == 1:
-            num_bugs = 20
-            full_file_path = ''
-        elif len(sys.argv) <= 3:
-            for argument in sys.argv[1:]:
-                if argument.isnumeric():
-                    num_bugs = int(argument)
-                elif argument.isalpha():
-                    full_file_path = argument
-                else:
-                    pass
-        elif len(sys.argv) > 3:
-            sys.exit("Too many arguments! Refer to the README.md for help")
-        else:
-            pass
-
-        #When this program is imported via the python shell,
-        #this is needed to ensure that either single argument may be given.
-        if type(num_bugs) == str and type(full_file_path) == int:
-            file = num_bugs
-            num = full_file_path
-            full_file_path = file
-            num_bugs = num
-        elif type(num_bugs) == str:
-            full_file_path = num_bugs
-            num_bugs = 20
-        else:
-            pass
             
         #If no file has been specified, it Removes small Tk window and prompts user to choose file.
         if full_file_path == '':
-            #k().withdraw()
+            Tk().withdraw()
             full_file_path = askopenfilename()
 
         #Reject files that are too small (only a few lines) or too big,
@@ -753,7 +721,6 @@ class Buggify:
             self.language = "php"
 
 
-
 #The following functions reference this list in order to remove themselves from it if they can't be applied:
 #equal_switch(), missing_blanks(), scrambled_line() and any function which uses
 #multi_char_switch() and all_char_switch().
@@ -762,6 +729,16 @@ class Buggify:
 
 #Run the program
 if __name__ == "__main__":
+    args = sys.argv
     b = Buggify()
-    b.buggify()
+    #buggify function takes the following args: (self, num_bugs=20, full_file_path='')
+    if len(args) == 1:
+        b.buggify()
+    elif len(args) == 2:
+        b.buggify(int(args[1]))
+    elif len(args) == 3:
+        #args1 = number of bugs and args2 = string path
+        b.buggify(int(args[1]), str(args[2]))
+    elif len(args) > 3:
+        print("ERROR: Invalid Arguments")
     
