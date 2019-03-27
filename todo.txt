@@ -21,6 +21,4 @@
 		 it should execute once before exiting	
 
 ***BUG FUNCTION IDEAS***
--Insert character at random point in the line
-	-Duplicate the character?
 
