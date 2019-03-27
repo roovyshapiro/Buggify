@@ -189,7 +189,6 @@ class CreateBugs:
             line_index, line_char_list = self.random_line(filelist)
             line_search_tries -= 1
             if line_search_tries == 0:
-                self.bug_function_list
                 self.bug_function_list.remove(equal_switch)
                 return filelist, num_bugs
             
@@ -355,7 +354,6 @@ class CreateBugs:
             line_index, line_char_list = self.random_line(filelist)
             line_search_tries -= 1
             if line_search_tries == 0:
-                self.bug_function_list
                 self.bug_function_list.remove(missing_blanks)
                 return filelist, num_bugs
 
@@ -391,7 +389,6 @@ class CreateBugs:
             line_list = filelist[self.random_line_index].split()
             line_search_tries -= 1
             if line_search_tries == 0:
-                self.bug_function_list
                 self.bug_function_list.remove(scrambled_line)
                 return filelist, num_bugs
             
@@ -477,7 +474,6 @@ class CreateBugs:
             line_search_tries -= 1
             if line_search_tries == 0:
                 if func_name != '':
-                    self.bug_function_list
                     self.bug_function_list.remove(func_name)
                 return filelist, num_bugs
             
@@ -510,7 +506,6 @@ class CreateBugs:
             line_search_tries -= 1
             if line_search_tries == 0:
                 if func_name != '':
-                    self.bug_function_list
                     self.bug_function_list.remove(func_name)
                 return filelist, num_bugs
 
@@ -695,16 +690,21 @@ class Buggify:
         filelist = self.filemanager.convert_to_list(copy_of_file)
         #Answer key becomes a .txt file for easier reviewing
         answer_key = self.filemanager.alter_file_name(original_file, 'BUG-ANSWERKEY', 'text')
+
+        #Main part of the program is run here, the while loop runs for the number of bugs in the program
+        #This randomly selects one of the functions to run to create the bugs
         while num_bugs > 1:
             try:
-                random_num = random.randint(0,len(self.bug_function_list) - 1)
-                filelist, num_bugs = self.bug_function_list[random_num](filelist, num_bugs)
+                filelist, num_bugs = random.choice(self.bug_function_list)(filelist, num_bugs)
             except ValueError:
                 print('WARNING! ValueError: buggify() may not have run successfully on ' + original_file)
-                break
+                continue
+
         filechanges = '\n'.join(filelist)
+
         with open(copy_of_file, 'w', errors='ignore') as f:
             f.write(filechanges)
+
         self.filemanager.diff_output(original_file, copy_of_file, answer_key)
 
 
