@@ -2,9 +2,13 @@
 -Grammar mode
 	-Allows for automatic inputting of Grammar, spelling and punctuation errors 
 	 geared more towards education
+
 -Programming Language specific bugs 
 	-Possible abstraction of functions to be more customizable based on the language
 	-Automatically detect language based on file extension
+
+--Create a GUI for the program that allows custom bugs to be put into the program
+	-this could easily be acomplished by using checkboxes on a GUI, a check box for every type of bug
 		
 ***ISSUES***
 -Must test with various file types to anticipate errors with bugs not 
@@ -19,27 +23,12 @@
 		-Thus for consistency, if a function CAN apply to a file, 
 		 it should execute once before exiting	
 
-***BUG FUNCTION IDEAS***
--Insert charachter at random point in the line
-	-Duplicate the charachter?
--Replace Break with Continue and vice versae
--Turn function Return into print statement
 
-***TESTING***
-from Buggify import buggify
-import os
+Other random thoughts:
 
-list_of_files = []
-for root, subfolders, files in os.walk('C:\\Users\\roovy.q\\Documents\\<Directory Name>'):
-    for file in files:
-        path = os.path.join(root, file)
-        filepath = os.path.abspath(path)
-        if "git\\" not in filepath:
-            list_of_files.append(filepath)
+-- I think the fill in the blank is a good idea, but it seems like it is a little overused... a few lines here and there would be cool to see but with my testing, it gets a little obnoxious.
 
-def test_buggify(list_of_files):
-    for file in list_of_files:
-        print(file)
-        buggify(file, 500)
-        
-test_buggify(list_of_files)
+-- The Bugged docstring may have an error but i am not compleltely sure yet.
+
+
+
