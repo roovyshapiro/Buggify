@@ -6,9 +6,6 @@
 -Programming Language specific bugs 
 	-Possible abstraction of functions to be more customizable based on the language
 	-Automatically detect language based on file extension
-
---Create a GUI for the program that allows custom bugs to be put into the program
-	-this could easily be acomplished by using checkboxes on a GUI, a check box for every type of bug
 		
 ***ISSUES***
 -Must test with various file types to anticipate errors with bugs not 
@@ -26,9 +23,9 @@
 
 Other random thoughts:
 
--- I think the fill in the blank is a good idea, but it seems like it is a little overused... a few lines here and there would be cool to see but with my testing, it gets a little obnoxious.
 
 -- The Bugged docstring may have an error but i am not compleltely sure yet.
+
 
 
 
