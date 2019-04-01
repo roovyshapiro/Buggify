@@ -73,7 +73,7 @@ Below are the abbriviated versions of each bug by name, these can be specified b
 You can also import Buggify and run it with Python. This allows some additional options. 
 ~~~~
 >>>from Buggify import Buggify
->>>bug = Buggify()
+>>>b = Buggify()
 >>>b.buggify('testfile.py', 15) #Type the full path to the file if it's not in the same directory.
 ~~~~
 Run Buggify 20 times on the same file to generate 20 unique Buggified copies:
@@ -103,18 +103,18 @@ Run Buggify on every file in the current directory and all of its subdirectories
 >>>        filepath = os.path.abspath(path)
 >>>        list_of_files.append(filepath)
 >>>
->>>bug = Buggify()
+>>>b = Buggify()
 >>>
 >>>for file in list_of_files:
->>>    bug.buggify(file)
+>>>    b.buggify(file)
 ~~~~
 ___
 # Buggify.py Overview
 The Class that does all the work is Buggify:
 ~~~~
 from Buggify import Buggify
-bug = Buggify()
-bug.buggify(num_bugs, file)
+b = Buggify()
+b.buggify(num_bugs, file)
 ~~~~
  1. Specify the number of bugs you'd like to introduce and the file you'd like to apply the bugs to. If the number of bugs is left blank, it will default to 20. If the file isn't specified, the user will be prompted to choose one.  
  2. The file is copied to a new file with "BUGGIFIED" appended to the file name but before the extension. This ensures that no changes will be made to the original file.

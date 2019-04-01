@@ -225,6 +225,156 @@ class CreateBugs:
                     self.bugged_docstring,
                     ]
 
+####These first set of functions are used by the bug functions:
+####random_line(), multi_char_switch(), all_char_switch() and docstring_detect()
+        
+    def random_line(self, filelist, opt_arg = 'line_list'):
+        '''Gets a random line from the file as a string
+        (as long as it's not a comment, part of a docstring,
+        empty, the first line or the last line, or the second to last line)
+        and returns it as a list of characters along with the chosen index.'''
+        self.random_line_index = random.randint(0, len(filelist) - 1)
+        if self.docstring_line_indexes == []:
+            self.docstring_line_indexes = self.docstring_detect(filelist)
+
+        while (filelist[self.random_line_index].strip().startswith('#') or
+            self.random_line_index in self.docstring_line_indexes or
+            len(set(filelist[self.random_line_index])) <= 2 or
+            self.random_line_index >= (len(filelist) - 1) or
+            self.random_line_index == 0):
+
+            self.random_line_index = random.randint(0, len(filelist) - 1)
+        
+        if opt_arg == 'line_list':
+            line_list = list(filelist[self.random_line_index])
+            return self.random_line_index, line_list 
+        return self.random_line_index
+
+    def multi_char_switch(self, filelist, num_bugs, chars1, chars2, func_name=''):
+        '''
+        Switches two supplied characters or words for each other once in a line.
+        They do not have to be the same length.
+        '''
+        line_index, line_char_list = self.random_line(filelist)
+        
+        #line_char_list must contain at least either chars1 or char2
+        #Break the loop if it tries more than 100 times to prevent
+        #a situation where the word or character isn't present in the file.
+        #If a line can't be found, then that function is removed from the main
+        #bug_function_list to ensure it isn't run again.
+        line_search_tries = 100
+        while chars1 not in filelist[line_index] or chars2 not in filelist[line_index]:
+            line_index, line_char_list = self.random_line(filelist)
+            line_search_tries -= 1
+            if line_search_tries == 0:
+                if func_name != '':
+                    self.bug_function_list.remove(func_name)
+                return filelist, num_bugs
+            
+        for char_index in range(len(line_char_list)):
+            if random.randint(0,2) == 1:     #not too many on same line
+                if line_char_list[char_index : char_index + len(chars1)] == list(chars1):
+                    line_char_list[char_index : char_index + len(chars1)] = chars2
+                    num_bugs -=1
+                elif line_char_list[char_index : char_index + len(chars2)] == list(chars2):
+                    line_char_list[char_index : char_index + len(chars2)] = chars1
+                    num_bugs -=1   
+        filelist[line_index] = ''.join(line_char_list)
+        return filelist, num_bugs
+
+    def all_char_switch(self, filelist, num_bugs, char1, char2, char3 = '', char4 = '', func_name = ''):
+        '''
+        Randomly changes all instances of a character in a line with another one.
+        Optional: supply two additional characters for switching in a line.
+        '''
+        char_list = [char1, char2, char3, char4]
+        line_index, line_char_list = self.random_line(filelist)  
+        #line_char_list must contain at least one character from char_list
+        #Break the loop if it tries more than 50 times to prevent
+        #a situation where the characters aren't present in the file.
+        #If a line can't be found, then the function is removed from the main
+        #bug_function_list to ensure it isn't run again.
+        line_search_tries = 100
+        while not any(char in char_list for char in line_char_list):
+            line_index, line_char_list = self.random_line(filelist)
+            line_search_tries -= 1
+            if line_search_tries == 0:
+                if func_name != '':
+                    self.bug_function_list.remove(func_name)
+                return filelist, num_bugs
+
+        for char_index in range(len(line_char_list)):
+            if line_char_list[char_index] == char1:
+                line_char_list[char_index] = char2
+            elif line_char_list[char_index] == char2:
+                line_char_list[char_index] = char1
+                
+            elif line_char_list[char_index] == char3:
+                line_char_list[char_index] = char4
+            elif line_char_list[char_index] == char4:
+                line_char_list[char_index] = char3
+        num_bugs -= 1
+        filelist[line_index] = ''.join(line_char_list)
+                
+        return filelist, num_bugs
+
+    def docstring_detect(self, filelist, return_start_end = 'no'):
+        '''
+        This function detects all the lines of a docstring.
+        This is useful because we don't want most of the bugs to apply to docstrings.
+        To detect a full docstring:
+        1. Append all line indexes which start with triple quotes to a list.
+        2. If the len(list) is even, we know that we have the beginnings and endings of the docstrings.
+           If it's not even, the docstrings are either formatted incorrectly, or this function won't work.
+        3. Append the 0, 2, 4 etc. list indexes to [start_quotes], which will be our docstring starts.
+        4. Append the 1, 3, 5 etc. list indexes to [end_quotes], which will be our docstring ends.
+        5. A range is then calculated from the 0 index of start_quotes to the 0 index of [end_quotes].
+        Example:
+        doc_list = [1, 3, 8, 10] #These lines begin with triple quotes.
+        start_quotes = [1,8]
+        end_quotes = [3,10]
+        Lines 1, 2, 3 are a docstring. Lines 8, 9, 10 are another docstring.
+        full_doc_list of [1,2,3,8,9,10] is returned.
+
+        return_start_end == 'no'
+        This is for the bugged_docstring() function which should only apply to a single docstring.
+        Either lines 1 through 3, or lines 8 through 10.
+        '''
+        doc_list = []
+        start_quotes = []
+        end_quotes = []
+        full_doc_list = []
+        
+        for line_index in range(len(filelist)):
+            if filelist[line_index].strip().startswith("'''") or filelist[line_index].strip().startswith('"""'):
+                doc_list.append(line_index)
+            else:
+                continue
+
+        if len(doc_list) == 0 or len(doc_list) % 2 != 0:
+            if return_start_end == 'yes':
+                return start_quotes, end_quotes
+
+            full_doc_list.append(0)
+            return full_doc_list
+
+        start_quotes = [num for num in doc_list if doc_list.index(num) % 2 == 0]
+        end_quotes = [num for num in doc_list if doc_list.index(num) % 2 == 1]
+
+        for x in range(len(start_quotes)):
+            for y in range(start_quotes[x], end_quotes[x] + 1):
+                full_doc_list.append(y)
+
+        if self.docstring_line_indexes == []:
+            self.docstring_line_indexes = full_doc_list
+
+        if return_start_end == 'yes':
+            return start_quotes, end_quotes
+            
+        return full_doc_list 
+
+####These second set of functions are the bug functions themselves.
+
     def period_switch(self, filelist, num_bugs):
         '''
         Randomly switch period to a comma and vice versae.
@@ -363,7 +513,7 @@ class CreateBugs:
             line_index, line_char_list = self.random_line(filelist)
             line_search_tries -= 1
             if line_search_tries == 0:
-                self.bug_function_list.remove(equal_switch)
+                self.bug_function_list.remove(self.equal_switch)
                 return filelist, num_bugs
             
         randomizer = random.randint(0,1)
@@ -528,7 +678,7 @@ class CreateBugs:
             line_index, line_char_list = self.random_line(filelist=filelist)
             line_search_tries -= 1
             if line_search_tries == 0:
-                self.bug_function_list.remove(missing_blanks)
+                self.bug_function_list.remove(self.missing_blanks)
                 return filelist, num_bugs
 
         spaceless_char_list = [index for index, value in enumerate(line_char_list) if value != ' ']
@@ -563,7 +713,7 @@ class CreateBugs:
             line_list = filelist[self.random_line_index].split()
             line_search_tries -= 1
             if line_search_tries == 0:
-                self.bug_function_list.remove(scrambled_line)
+                self.bug_function_list.remove(self.scrambled_line)
                 return filelist, num_bugs
             
         num_spaces = 0
@@ -607,6 +757,7 @@ class CreateBugs:
                 filelist[docstring_line] = '#BUGGIFIED DOCSTRING'.rjust(24)
             num_bugs -= 1
         return filelist, num_bugs
+
 
     def random_line(self, filelist, opt_arg = 'line_list'):
         '''Gets a random line from the file as a string
@@ -749,12 +900,13 @@ class CreateBugs:
 
         if self.docstring_line_indexes == []:
             self.docstring_line_indexes = full_doc_list
-
-        if return_start_end == 'yes':
-            return start_quotes, end_quotes
             
-        return full_doc_list 
 
+################################
+### Section 2 - File Manager ###
+################################
+
+    
 class FileManager:
     '''The File Manager Class holds all of the methods that have to do with file creation and modification'''
 
@@ -819,6 +971,12 @@ class FileManager:
                 f.write(line)
                 f.write('\n')
         return answer_key_file_name
+
+
+################################
+##### Section 3 - Buggify ######
+################################
+    
 
 class Buggify:
     '''The Buggify Class holds the main buggify method which runs the program, the __init__ method of Buggify sets up which bugs that the user 
@@ -973,6 +1131,7 @@ if __name__ == "__main__":
 
     #If the user did not specify the GUI, run the command line program, if they did, run the GUI
 
+
     if str(args.GUI).lower() == 'no':
         b = Buggify(bug_function_list=args.bugs)
         b.buggify(num_bugs=args.numberofbugs[0], full_file_path=args.scriptpath)
@@ -982,3 +1141,18 @@ if __name__ == "__main__":
 
 
 
+
+#Run the program
+if __name__ == "__main__":
+    args = sys.argv
+    b = Buggify()
+    #buggify function takes the following args: (self, num_bugs=20, full_file_path='')
+    if len(args) == 1:
+        b.buggify()
+    elif len(args) == 2:
+        b.buggify(int(args[1]))
+    elif len(args) == 3:
+        #args1 = number of bugs and args2 = string path
+        b.buggify(int(args[1]), str(args[2]))
+    elif len(args) > 3:
+        print("ERROR: Invalid Arguments")   
