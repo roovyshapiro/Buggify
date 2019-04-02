@@ -182,7 +182,10 @@ class BuggifyGUI:
         #After all the values have been put into the buglist, then that list is passed into the __init__ method in the class
         b = Buggify(bug_function_list=buglist)
         #Then, the program is run normally using the buggify method of the Buggify Class
-        b.buggify(num_bugs=int(self.bugs_entry.get()), full_file_path=self.file)
+        try:
+            b.buggify(num_bugs=int(self.bugs_entry.get()), full_file_path=self.file)
+        except ValueError:
+            messagebox.showinfo("Error", "Please Enter the number of bugs!")
 
         #Remove the filepath label
         self.file_name_label.grid_forget()
@@ -1131,7 +1134,6 @@ if __name__ == "__main__":
 
     #If the user did not specify the GUI, run the command line program, if they did, run the GUI
 
-
     if str(args.GUI).lower() == 'no':
         b = Buggify(bug_function_list=args.bugs)
         b.buggify(num_bugs=args.numberofbugs[0], full_file_path=args.scriptpath)
@@ -1139,20 +1141,3 @@ if __name__ == "__main__":
         print(colors.green + "Starting the GUI..." + colors.endcolor)
         gui = BuggifyGUI()
 
-
-
-
-#Run the program
-if __name__ == "__main__":
-    args = sys.argv
-    b = Buggify()
-    #buggify function takes the following args: (self, num_bugs=20, full_file_path='')
-    if len(args) == 1:
-        b.buggify()
-    elif len(args) == 2:
-        b.buggify(int(args[1]))
-    elif len(args) == 3:
-        #args1 = number of bugs and args2 = string path
-        b.buggify(int(args[1]), str(args[2]))
-    elif len(args) > 3:
-        print("ERROR: Invalid Arguments")   
