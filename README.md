@@ -14,6 +14,60 @@ Buggify is a great tool for educational/training purposes, interview/coding chal
 >pyinstaller Buggify.py --onefile
 ~~~~~~
 
+## Command Line Usage
+
+>> python3 Buggify.py -h
+
+usage: Buggify.py [-h] [--numberofbugs NUMBEROFBUGS]
+                  [--bugs [{ps,zs,ees,addsubs,sbs,abs,abs2,abs3,ls,chars,cases,eqs,ifs,csc,ts,numc,mb,scl,buggedc,buggeddoc,all} [{ps,zs,ees,addsubs,sbs,abs,abs2,abs3,ls,chars,cases,eqs,ifs,csc,ts,numc,mb,scl,buggedc,buggeddoc,all} ...]]]
+                  [--scriptpath SCRIPTPATH] [--GUI GUI]
+
+Buggify! Check the README.md for more information!
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --numberofbugs NUMBEROFBUGS
+                        The number of bugs you want put in the script
+  --bugs [{ps,zs,ees,addsubs,sbs,abs,abs2,abs3,ls,chars,cases,eqs,ifs,csc,ts,numc,mb,scl,buggedc,buggeddoc,all} [{ps,zs,ees,addsubs,sbs,abs,abs2,abs3,ls,chars,cases,eqs,ifs,csc,ts,numc,mb,scl,buggedc,buggeddoc,all} ...]]
+                        The specified bugs, see key in the README
+  --scriptpath SCRIPTPATH
+                        Absolute path of the script to be 'Buggified'
+  --GUI GUI             Launch GUI Interface (usage: --GUI yes
+
+
+
+## The default values are:
+number of bugs = 20
+filepath = A pop up window will appear from the cmd
+bugs = a random selection of bugs
+
+## Command Line Abbriviations
+
+Below are the abbriviated versions of each bug by name, these can be specified by the user
+
+'ps' == period_switch
+'zs' == zero_o_switch
+'ees' == elif_else_switch
+'addsubs' == add_subtract_switch
+'sbs' == single_bracket_switch
+'abs' == all_bracket_switch1
+'abs2' == all_bracket_switch2
+'abs3' == all_bracket_switch3
+'ls' == line_switch
+'chars' == char_switch
+'cases' == case_switch
+'eqs' == equal_switch
+'ifs' == if_switch
+'csc' == camel_snake_case
+'ts' == tabs_spaces
+'numc' == num_change
+'mb' == missing_blanks
+'scl' == scrambled_line
+'buggedc' == bugged_comment
+'buggeddoc' == bugged_docstring
+'all' == all bugs
+                 
+
 ## Buggify.buggify()
 
 You can also import Buggify and run it with Python. This allows some additional options. 
@@ -70,18 +124,18 @@ b.buggify(num_bugs, file)
 # Classes
 
 ## Buggify
-The Buggify class is our main class that creates instances of the CreateBugs and FileManager classes that control the main parts of the code. Buggify is created in the 'if __name__ == "__main__"' and then the buggify method is called on from that instance to start the program.
+The Buggify class is our main class that creates instances of the CreateBugs and FileManager classes that control the main parts of the code. Buggify is created in the 'if __name__ == "__main__"' after the arguments are parsed. The Buggify Class also takes 1 argument which is the bug_function_list, this list is the list of abbriviated bugs to include when the program is run through.
 
 ## FileManager
-The File Manager Class holds all of the functions that have to do with copying, altering or changing files
+The File Manager Class holds all of the functions that have to do with copying, altering or changing files. 
 
 ## CreateBugs:
-The Create Bugs Class holds the functions that create the bugs in the loaded file, these functions are isolated from everything else to make the code easier to read
+The Create Bugs Class holds the functions that create the bugs in the loaded file, these functions are isolated from everything else to make the code easier to read. These CreateBug functions have shortened version that are typed in by the user through the command line. The full list of these abbriviations are availible above in the README.md
 
 
 ## Implemented Bug functions in bug_function_list
 
-*(Typically, only one bug is implemented per line chosen at random. However, examples may show more than one bug per line for the sake of clarity.)*
+*(These Functions are held inside the CreateBugs class, if the user specifies spacific functions to be run in the GUI or command line, then a custom list is created that excludes the unwanted functions. If the 'all' option on the GUI or no values are specified, then all of the functions have the possiblity to be run on the script being modified by Buggify)*
 
  - **period_switch()**
 	 - Switches a period to a comma and vice versa.

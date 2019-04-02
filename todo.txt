@@ -7,13 +7,15 @@
 	-Possible abstraction of functions to be more customizable based on the language
 	-Automatically detect language based on file extension
 
+
 --Create a GUI for the program that allows custom bugs to be put into the program
 	-This could be acomplished by using checkboxes on a GUI, a check box for every type of bug, and an easier way to choose files.
 
 --Give the option to specify the destination folder for where the buggified documents get sent.
   Currently, it can't be chosen. We need to determine where it's being sent and if the default should change.
 	
-	
+
+
 ***ISSUES***
 --Must test with various file types to anticipate errors with bugs not 
   able to be applied. For example, what if a text file doesn't contain triple quotes -
@@ -28,6 +30,17 @@
 		-Thus for consistency, if a function CAN apply to a file, 
 		 it should execute once before exiting	
 
+
+
+Other random thoughts:
+
+
+-- The Bugged docstring may have an error but i am not compleltely sure yet.
+
+
+
+
+=======
 --missing_blanks() might be called on too much. Perhaps it needs a random element to make it apply less.
   I think this issue is included in the one where functions are inconsistent regarding how many times they are run.
  
